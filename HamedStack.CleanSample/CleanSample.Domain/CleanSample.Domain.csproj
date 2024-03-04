@@ -6,5 +6,10 @@
 	  <Nullable>enable</Nullable>
 	  <WarningsAsErrors>Nullable;CS8600;CS8602;CS8603;CS0619</WarningsAsErrors>
   </PropertyGroup>
-
+	<ItemGroup>
+		<PackageReference Include="Light.GuardClauses" Version="11.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\CleanSample.SharedKernel.Domain\CleanSample.SharedKernel.Domain.csproj" />
+	</ItemGroup>
 </Project>
