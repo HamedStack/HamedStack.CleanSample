@@ -25,7 +25,7 @@ internal class DomainEventOutboxInterceptor : SaveChangesInterceptor
             .Where(e => e.DomainEvents.Count != 0)
             .SelectMany(e =>
             {
-                var domainEvents = e.DomainEvents;
+                var domainEvents = e.DomainEvents.ToList();
                 e.ClearDomainEvents();
                 return domainEvents;
             })
@@ -35,7 +35,7 @@ internal class DomainEventOutboxInterceptor : SaveChangesInterceptor
         var outboxMessages = domainEvents.Select(d => new OutboxMessage()
         {
             Id = Guid.NewGuid(),
-            Name = d.GetType().FullName ?? d.GetType().Name,
+            Name = d.GetType().Name,
             Content = JsonSerializer.Serialize(d),
             CreatedOn = DateTimeOffset.Now,
             IsProcessed = false,
@@ -43,5 +43,6 @@ internal class DomainEventOutboxInterceptor : SaveChangesInterceptor
         }).ToList();
 
         dbContext.Set<OutboxMessage>().AddRange(outboxMessages);
+        // dbContext.SaveChanges();
     }
 }

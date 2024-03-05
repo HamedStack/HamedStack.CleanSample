@@ -1,5 +1,6 @@
 ﻿using CleanSample.Application.Commands;
 using CleanSample.Domain.AggregateRoots;
+using CleanSample.Domain.AggregateRoots.DomainEvents;
 using CleanSample.Domain.Enumerations;
 using CleanSample.Domain.ValueObjects;
 using CleanSample.Framework.Application.Cqrs.Commands;
@@ -28,6 +29,9 @@ public class CreateEmployeeHandler : ICommandHandler<CreateEmployeeCommand, int>
             Email = new Email(request.Email),
             BirthDate = request.BirthDate
         };
+
+        employee.AddDomainEvent(new EmployeeCreated() { FirstName = request.FirstName, LastName = request.LastName });
+
         var result = await _repository.AddAsync(employee, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return result.Id;

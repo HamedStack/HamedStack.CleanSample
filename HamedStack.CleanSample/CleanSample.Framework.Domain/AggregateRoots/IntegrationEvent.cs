@@ -5,6 +5,6 @@
 public abstract class IntegrationEvent
 {
     public Guid CorrelationId => Guid.NewGuid();
-    public string EventType => GetType().FullName ?? GetType().Name;
+    public string EventType => GetType().Name;
     public DateTimeOffset DateOccurred => DateTimeOffset.UtcNow;
 }

@@ -12,7 +12,7 @@ namespace CleanSample.Framework.Domain.AggregateRoots;
 /// </remarks>
 public abstract class DomainEvent : INotification
 {
-    public string EventType => GetType().FullName ?? GetType().Name;
+    public string EventType => GetType().Name;
     public DateTimeOffset DateOccurred => DateTimeOffset.UtcNow;
 }
 
