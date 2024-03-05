@@ -3,19 +3,15 @@ using Light.GuardClauses;
 
 namespace CleanSample.Domain.ValueObjects;
 
-public class Email : ValueObject
+public class Email : SingleValueObject<string>
 {
-    public string Value { get; } = null!;
-
     private Email()
     {
     }
 
     public Email(string value)
     {
-        value.MustNotBeNull().MustBeEmailAddress();
-
-        Value = value;
+        Value = value.MustNotBeNull().MustBeEmailAddress();
     }
     public override string ToString() => Value;
 

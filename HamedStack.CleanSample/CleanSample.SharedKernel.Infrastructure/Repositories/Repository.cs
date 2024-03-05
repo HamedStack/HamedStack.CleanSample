@@ -33,8 +33,8 @@ public class Repository<TEntity> : IRepository<TEntity>
             (entity as IHaveAudit)!.CreatedBy = ToString();
         }
 
-        var newEntity = await DbSet.AddAsync(entity, cancellationToken);
-        return newEntity.Entity;
+        await DbSet.AddAsync(entity, cancellationToken);
+        return entity;
     }
 
     public async Task<IEnumerable<TEntity>> AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)

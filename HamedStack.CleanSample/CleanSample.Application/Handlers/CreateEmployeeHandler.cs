@@ -1,5 +1,6 @@
 ﻿using CleanSample.Application.Commands;
 using CleanSample.Domain.AggregateRoots;
+using CleanSample.Domain.Enumerations;
 using CleanSample.Domain.ValueObjects;
 using CleanSample.SharedKernel.Application.Cqrs.Commands;
 using CleanSample.SharedKernel.Application.Results;
@@ -23,8 +24,8 @@ public class CreateEmployeeHandler : ICommandHandler<CreateEmployeeCommand, int>
         var employee = new Employee()
         {
             FullName = new FullName(request.FirstName, request.LastName),
-            Gender = request.Gender,
-            Email = request.Email,
+            Gender = Gender.FromValue(request.Gender),
+            Email = new Email(request.Email),
             BirthDate = request.BirthDate
         };
         var result = await _repository.AddAsync(employee, cancellationToken);

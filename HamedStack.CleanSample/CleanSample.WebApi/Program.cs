@@ -1,14 +1,24 @@
+using CleanSample.Infrastructure;
 using CleanSample.WebApi.REPR;
+using Microsoft.EntityFrameworkCore;
+using CleanSample.SharedKernel.Application.Extensions;
+using CleanSample.SharedKernel.Infrastructure.Extensions;
+using CleanSample.Application.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-builder.Services.AddMinimalApiEndpoints();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddFrameworkDbContext<EmployeeDbContext>();
+
+builder.Services.AddDbContext<EmployeeDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("EmployeeDb") ?? "Data Source=database.db"));
+
+builder.Services.AddFrameworkMediatR(typeof(CreateEmployeeHandler));
+builder.Services.AddMinimalApiEndpoints();
 
 var app = builder.Build();
 
