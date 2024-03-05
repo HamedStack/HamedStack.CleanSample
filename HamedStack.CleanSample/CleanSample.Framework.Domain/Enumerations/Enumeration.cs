@@ -1,4 +1,6 @@
-﻿using System.Collections.Concurrent;
+﻿// ReSharper disable StaticMemberInGenericType
+
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
@@ -55,6 +57,30 @@ public abstract class Enumeration<T> : IComparable
         (Value, Name, Description) = (value, name, description ?? string.Empty);
     }
 
+    public static implicit operator int(Enumeration<T> enumeration)
+    {
+        return Convert.ToInt32(enumeration.Value);
+    }
+    public static implicit operator long(Enumeration<T> enumeration)
+    {
+        return enumeration.Value;
+    }
+    public static implicit operator string(Enumeration<T> enumeration)
+    {
+        return enumeration.Name;
+    }
+    public static implicit operator Enumeration<T>(string name)
+    {
+        return FromName(name);
+    }
+    public static implicit operator Enumeration<T>(int value)
+    {
+        return FromValue(value);
+    }
+    public static implicit operator Enumeration<T>(long value)
+    {
+        return FromValue(value);
+    }
     public override string ToString() => Name;
 
     public static IEnumerable<T> GetAll(bool useCache = true)

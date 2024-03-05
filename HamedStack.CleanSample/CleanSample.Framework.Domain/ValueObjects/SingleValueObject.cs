@@ -12,6 +12,16 @@ public class SingleValueObject<T> : ValueObject
         Value = value;
     }
 
+    public static implicit operator T(SingleValueObject<T> valueObject)
+    {
+        return valueObject.Value;
+    }
+
+    public static implicit operator SingleValueObject<T>(T value)
+    {
+        return new SingleValueObject<T>(value);
+    }
+
     public T Value { get; set; } = default!;
 
     protected override IEnumerable<object?> GetEqualityComponents()
