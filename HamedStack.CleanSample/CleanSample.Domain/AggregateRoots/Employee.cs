@@ -1,6 +1,6 @@
 ﻿using CleanSample.Domain.Enumerations;
 using CleanSample.Domain.ValueObjects;
-using CleanSample.SharedKernel.Domain.AggregateRoots;
+using CleanSample.Framework.Domain.AggregateRoots;
 
 namespace CleanSample.Domain.AggregateRoots;
 

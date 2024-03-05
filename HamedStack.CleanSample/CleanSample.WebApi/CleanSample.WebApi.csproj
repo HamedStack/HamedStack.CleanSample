@@ -14,7 +14,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\CleanSample.Application\CleanSample.Application.csproj" />
 		<ProjectReference Include="..\CleanSample.Infrastructure\CleanSample.Infrastructure.csproj" />
-		<ProjectReference Include="..\CleanSample.SharedKernel.Application\CleanSample.SharedKernel.Application.csproj" />
+		<ProjectReference Include="..\CleanSample.Framework.Application\CleanSample.Framework.Application.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">

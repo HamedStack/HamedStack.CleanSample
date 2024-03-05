@@ -1,4 +1,4 @@
-﻿using CleanSample.SharedKernel.Application.Cqrs.Commands;
+﻿using CleanSample.Framework.Application.Cqrs.Commands;
 
 namespace CleanSample.Application.Commands;
 

@@ -1,9 +1,9 @@
 using CleanSample.Infrastructure;
 using CleanSample.WebApi.REPR;
 using Microsoft.EntityFrameworkCore;
-using CleanSample.SharedKernel.Application.Extensions;
-using CleanSample.SharedKernel.Infrastructure.Extensions;
 using CleanSample.Application.Handlers;
+using CleanSample.Framework.Application.Extensions;
+using CleanSample.Framework.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

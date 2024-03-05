@@ -1,4 +1,4 @@
-﻿using CleanSample.SharedKernel.Domain.ValueObjects;
+﻿using CleanSample.Framework.Domain.ValueObjects;
 using Light.GuardClauses;
 
 namespace CleanSample.Domain.ValueObjects;

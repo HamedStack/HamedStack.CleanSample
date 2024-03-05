@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CleanSample.Domain\CleanSample.Domain.csproj" />
-    <ProjectReference Include="..\CleanSample.SharedKernel.Application\CleanSample.SharedKernel.Application.csproj" />
+    <ProjectReference Include="..\CleanSample.Framework.Application\CleanSample.Framework.Application.csproj" />
   </ItemGroup>
 
 </Project>

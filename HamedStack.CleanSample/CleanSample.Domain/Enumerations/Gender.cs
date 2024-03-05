@@ -1,4 +1,4 @@
-﻿using CleanSample.SharedKernel.Domain.Enumerations;
+﻿using CleanSample.Framework.Domain.Enumerations;
 
 namespace CleanSample.Domain.Enumerations;
 

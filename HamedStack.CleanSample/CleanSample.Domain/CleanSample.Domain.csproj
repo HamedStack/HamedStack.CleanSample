@@ -10,6 +10,7 @@
 		<PackageReference Include="Light.GuardClauses" Version="11.0.0" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\CleanSample.SharedKernel.Domain\CleanSample.SharedKernel.Domain.csproj" />
+	  <ProjectReference Include="..\CleanSample.Framework.Domain\CleanSample.Framework.Domain.csproj" />
+	  <ProjectReference Include="..\CleanSample.Framework.Domain\CleanSample.Framework.Domain.csproj" />
 	</ItemGroup>
 </Project>

@@ -2,9 +2,9 @@
 using CleanSample.Domain.AggregateRoots;
 using CleanSample.Domain.Enumerations;
 using CleanSample.Domain.ValueObjects;
-using CleanSample.SharedKernel.Application.Cqrs.Commands;
-using CleanSample.SharedKernel.Application.Results;
-using CleanSample.SharedKernel.Domain.Repositories;
+using CleanSample.Framework.Application.Cqrs.Commands;
+using CleanSample.Framework.Application.Results;
+using CleanSample.Framework.Domain.Repositories;
 
 namespace CleanSample.Application.Handlers;
 

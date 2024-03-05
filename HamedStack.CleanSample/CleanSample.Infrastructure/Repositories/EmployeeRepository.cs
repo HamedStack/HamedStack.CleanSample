@@ -1,4 +1,4 @@
-﻿using CleanSample.SharedKernel.Infrastructure.Repositories;
+﻿using CleanSample.Framework.Infrastructure.Repositories;
 
 namespace CleanSample.Infrastructure.Repositories;
 

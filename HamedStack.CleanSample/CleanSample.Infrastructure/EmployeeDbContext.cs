@@ -1,8 +1,8 @@
-﻿using CleanSample.SharedKernel.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using CleanSample.Domain.AggregateRoots;
+using CleanSample.Framework.Infrastructure.Repositories;
 
 namespace CleanSample.Infrastructure;
 
