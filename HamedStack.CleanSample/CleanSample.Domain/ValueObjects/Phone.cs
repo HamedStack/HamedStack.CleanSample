@@ -5,8 +5,9 @@ namespace CleanSample.Domain.ValueObjects;
 
 public class Phone : ValueObject
 {
-    public string Value { get; }
+    public string Value { get; } = null!;
 
+    private Phone(){}
     public Phone(string value)
     {
         value.MustNotBeNull().MustNotBeNullOrEmpty().MustNotBeNullOrWhiteSpace();

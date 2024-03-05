@@ -2,14 +2,26 @@
 
 namespace CleanSample.Domain.ValueObjects;
 
-public class Address(string street, string city, string state, string country, string postalCode)
-    : ValueObject
+public class Address : ValueObject
 {
-    public string Street { get; } = street;
-    public string City { get; } = city;
-    public string State { get; } = state;
-    public string Country { get; } = country;
-    public string PostalCode { get; } = postalCode;
+    private Address()
+    {
+    }
+
+    public Address(string street, string city, string state, string country, string postalCode)
+    {
+        Street = street;
+        City = city;
+        State = state;
+        Country = country;
+        PostalCode = postalCode;
+    }
+
+    public string Street { get; } = null!;
+    public string City { get; } = null!;
+    public string State { get; } = null!;
+    public string Country { get; } = null!;
+    public string PostalCode { get; } = null!;
 
     protected override IEnumerable<object?> GetEqualityComponents()
     {

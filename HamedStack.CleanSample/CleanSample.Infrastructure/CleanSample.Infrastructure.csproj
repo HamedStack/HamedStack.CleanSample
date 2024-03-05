@@ -7,4 +7,10 @@
 	  <WarningsAsErrors>Nullable;CS8600;CS8602;CS8603;CS0619</WarningsAsErrors>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CleanSample.Domain\CleanSample.Domain.csproj" />
+    <ProjectReference Include="..\CleanSample.SharedKernel.Domain\CleanSample.SharedKernel.Domain.csproj" />
+    <ProjectReference Include="..\CleanSample.SharedKernel.Infrastructure\CleanSample.SharedKernel.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

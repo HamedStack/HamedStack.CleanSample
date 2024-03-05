@@ -5,7 +5,11 @@ namespace CleanSample.Domain.ValueObjects;
 
 public class Email : ValueObject
 {
-    public string Value { get; }
+    public string Value { get; } = null!;
+
+    private Email()
+    {
+    }
 
     public Email(string value)
     {

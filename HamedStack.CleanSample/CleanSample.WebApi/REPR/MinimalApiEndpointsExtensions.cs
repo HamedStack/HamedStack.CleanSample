@@ -18,7 +18,7 @@ public static class MinimalApiEndpointsExtensions
         return services;
     }
 
-    public static WebApplication UseMinimalApiEndpoints(this WebApplication app)
+    public static WebApplication MapMinimalApiEndpoints(this WebApplication app)
     {
         var endpoints = app.Services.GetServices<IMinimalApiEndpoint>();
         foreach (var endpoint in endpoints)
