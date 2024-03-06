@@ -9,7 +9,7 @@ namespace CleanSample.Framework.Infrastructure.Interceptors;
 internal class DomainEventOutboxInterceptor : SaveChangesInterceptor
 {
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = new())
     {
         if (eventData.Context != null)
         {
@@ -31,18 +31,17 @@ internal class DomainEventOutboxInterceptor : SaveChangesInterceptor
             })
             .ToList();
 
-
-        var outboxMessages = domainEvents.Select(d => new OutboxMessage()
+        var outboxMessages = domainEvents.Select(domainEvent => new OutboxMessage()
         {
             Id = Guid.NewGuid(),
-            Name = d.GetType().Name,
-            Content = JsonSerializer.Serialize(d),
+            Name = domainEvent.GetType().Name,
+            Content = JsonSerializer.Serialize(domainEvent),
             CreatedOn = DateTimeOffset.Now,
             IsProcessed = false,
             ProcessedOn = null,
         }).ToList();
 
-        dbContext.Set<OutboxMessage>().AddRange(outboxMessages);
-        // dbContext.SaveChanges();
+        if (outboxMessages.Count > 0)
+            dbContext.Set<OutboxMessage>().AddRange(outboxMessages);
     }
 }

@@ -1,6 +1,7 @@
 ﻿// ReSharper disable StaticMemberInGenericType
 
 using System.Collections.Concurrent;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
@@ -15,8 +16,9 @@ public abstract class Enumeration<T> : IComparable
 
     public long Value { get; }
 
+    [NotMapped]
     public string Name { get; set; } = null!;
-
+    [NotMapped]
     public string Description { get; set; } = null!;
 
     protected Enumeration()

@@ -28,15 +28,11 @@ namespace CleanSample.Infrastructure.Migrations
                     Phone = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     Fax = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     EmployeeStatus = table.Column<long>(type: "INTEGER", maxLength: 100, nullable: true),
-                    EmployeeStatus_Name = table.Column<string>(type: "TEXT", nullable: true),
-                    EmployeeStatus_Description = table.Column<string>(type: "TEXT", nullable: true),
                     ReportsTo = table.Column<int>(type: "INTEGER", nullable: true),
                     ManagerId = table.Column<int>(type: "INTEGER", nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     FirstName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     LastName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Gender_Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Gender_Name = table.Column<string>(type: "TEXT", nullable: false),
                     Gender = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>

@@ -68,14 +68,6 @@ namespace CleanSample.Infrastructure.Migrations
                         {
                             b1.IsRequired();
 
-                            b1.Property<string>("Description")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
                             b1.Property<long>("Value")
                                 .HasColumnType("INTEGER")
                                 .HasColumnName("Gender");
@@ -88,7 +80,7 @@ namespace CleanSample.Infrastructure.Migrations
                     b.ToTable("Employee", (string)null);
                 });
 
-            modelBuilder.Entity("CleanSample.SharedKernel.Infrastructure.Outbox.OutboxMessage", b =>
+            modelBuilder.Entity("CleanSample.Framework.Infrastructure.Outbox.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -164,14 +156,6 @@ namespace CleanSample.Infrastructure.Migrations
                         {
                             b1.Property<int>("EmployeeId")
                                 .HasColumnType("INTEGER");
-
-                            b1.Property<string>("Description")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
 
                             b1.Property<long>("Value")
                                 .HasMaxLength(100)
