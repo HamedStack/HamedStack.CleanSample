@@ -22,6 +22,7 @@ public class CreateEmployeeHandler : ICommandHandler<CreateEmployeeCommand, int>
 
     public async Task<Result<int>> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
     {
+
         var employee = new Employee()
         {
             FullName = new FullName(request.FirstName, request.LastName),
@@ -29,6 +30,7 @@ public class CreateEmployeeHandler : ICommandHandler<CreateEmployeeCommand, int>
             Email = new Email(request.Email),
             BirthDate = request.BirthDate
         };
+
 
         employee.AddDomainEvent(new EmployeeCreated() { FirstName = request.FirstName, LastName = request.LastName });
 

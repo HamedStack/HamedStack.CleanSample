@@ -2,6 +2,7 @@
 // ReSharper disable IdentifierTypo
 
 using CleanSample.Framework.Application.Cqrs.Commands;
+using CleanSample.Framework.Application.Cqrs.PipelineBehaviors;
 using CleanSample.Framework.Application.Cqrs.Queries;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,10 @@ namespace CleanSample.Framework.Application.Extensions
             
             var assemblies =
                 AssemblyExtensions.AppDomainContains(allTypes).ToArray();
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
 

@@ -17,6 +17,7 @@
 		<ProjectReference Include="..\CleanSample.Framework.Application\CleanSample.Framework.Application.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

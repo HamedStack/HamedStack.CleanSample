@@ -6,7 +6,7 @@ namespace CleanSample.Framework.Infrastructure.Interceptors;
 
 internal class PerformanceInterceptor : DbCommandInterceptor
 {
-    private const long QuerySlowThreshold = 100; // milliseconds
+    private const long SlowQueryThreshold = 100; // milliseconds
 
     private readonly ILogger _logger;
 
@@ -17,7 +17,7 @@ internal class PerformanceInterceptor : DbCommandInterceptor
 
     public override DbDataReader ReaderExecuted(DbCommand command, CommandExecutedEventData eventData, DbDataReader result)
     {
-        if (eventData.Duration.TotalMilliseconds > QuerySlowThreshold)
+        if (eventData.Duration.TotalMilliseconds > SlowQueryThreshold)
         {
             LogQuery(command, eventData);
         }
@@ -28,7 +28,7 @@ internal class PerformanceInterceptor : DbCommandInterceptor
     public override ValueTask<DbDataReader> ReaderExecutedAsync(DbCommand command, CommandExecutedEventData eventData, DbDataReader result,
         CancellationToken cancellationToken = new())
     {
-        if (eventData.Duration.TotalMilliseconds > QuerySlowThreshold)
+        if (eventData.Duration.TotalMilliseconds > SlowQueryThreshold)
         {
             LogQuery(command, eventData);
         }
