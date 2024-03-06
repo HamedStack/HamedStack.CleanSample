@@ -2,7 +2,7 @@
 
 namespace CleanSample.Domain.AggregateRoots.DomainEvents;
 
-public class EmployeeCreated : DomainEvent
+public class EmployeeCreatedDomainEvent : DomainEvent
 {
     public required string FirstName { get; set; }
     public required string LastName { get; set; }

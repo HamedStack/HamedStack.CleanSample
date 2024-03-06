@@ -1,10 +1,10 @@
 using CleanSample.Infrastructure;
 using CleanSample.WebApi.REPR;
 using Microsoft.EntityFrameworkCore;
-using CleanSample.Application.Handlers;
 using CleanSample.Framework.Application.Extensions;
 using CleanSample.Framework.Infrastructure.Extensions;
 using FluentValidation;
+using CleanSample.Application.Commands.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 

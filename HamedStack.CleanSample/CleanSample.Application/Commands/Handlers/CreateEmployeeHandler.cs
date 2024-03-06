@@ -7,7 +7,7 @@ using CleanSample.Framework.Application.Cqrs.Commands;
 using CleanSample.Framework.Application.Results;
 using CleanSample.Framework.Domain.Repositories;
 
-namespace CleanSample.Application.Handlers;
+namespace CleanSample.Application.Commands.Handlers;
 
 public class CreateEmployeeHandler : ICommandHandler<CreateEmployeeCommand, int>
 {
@@ -32,7 +32,7 @@ public class CreateEmployeeHandler : ICommandHandler<CreateEmployeeCommand, int>
         };
 
 
-        employee.AddDomainEvent(new EmployeeCreated() { FirstName = request.FirstName, LastName = request.LastName });
+        employee.AddDomainEvent(new EmployeeCreatedDomainEvent() { FirstName = request.FirstName, LastName = request.LastName });
 
         var result = await _repository.AddAsync(employee, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

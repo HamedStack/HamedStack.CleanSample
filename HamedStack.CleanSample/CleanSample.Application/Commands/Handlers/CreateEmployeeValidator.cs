@@ -2,9 +2,9 @@
 using CleanSample.Framework.Application.Cqrs.Commands;
 using FluentValidation;
 
-namespace CleanSample.Application.Handlers
+namespace CleanSample.Application.Commands.Handlers
 {
-    public class CreateEmployeeValidator : CommandValidator<CreateEmployeeCommand,int>
+    public class CreateEmployeeValidator : CommandValidator<CreateEmployeeCommand, int>
     {
         public CreateEmployeeValidator()
         {

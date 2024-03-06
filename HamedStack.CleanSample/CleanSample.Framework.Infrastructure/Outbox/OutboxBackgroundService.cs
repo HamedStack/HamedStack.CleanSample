@@ -31,18 +31,18 @@ public class OutboxBackgroundService : BackgroundService
 
                 foreach (var message in messages)
                 {
-                    //var eventKey = new Regex("\"EventKey\":\"(.+?)\"").Match(message.Content).Groups[1].ToString();
+                    var eventKey = new Regex("\"EventKey\":\"(.+?)\"").Match(message.Content).Groups[1].ToString();
 
-                    //var eventType = AppDomain.CurrentDomain.GetAssemblies()
-                    //    .SelectMany(x => x.GetTypes())
-                    //    .FirstOrDefault(x => x.AssemblyQualifiedName == eventKey);
-                    /*
+                    var eventType = AppDomain.CurrentDomain.GetAssemblies()
+                        .SelectMany(x => x.GetTypes())
+                        .FirstOrDefault(x => x.AssemblyQualifiedName == eventKey);
+                    
                     var domainEvent = JsonSerializer.Deserialize(message.Content, eventType!)!;
                     var dispatcher = scope.ServiceProvider.GetRequiredService<IDomainEventDispatcher>();
                     await dispatcher.DispatchEventAsync(domainEvent, stoppingToken);
 
                     message.IsProcessed = true;
-                    message.ProcessedOn = DateTimeOffset.Now;*/
+                    message.ProcessedOn = DateTimeOffset.Now;
                 }
                 await dbContext.SaveChangesAsync(stoppingToken);
             }

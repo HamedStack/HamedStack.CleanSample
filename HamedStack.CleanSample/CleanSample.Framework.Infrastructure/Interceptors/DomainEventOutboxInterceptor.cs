@@ -35,7 +35,7 @@ internal class DomainEventOutboxInterceptor : SaveChangesInterceptor
         {
             Id = Guid.NewGuid(),
             Name = domainEvent.GetType().Name,
-            Content = JsonSerializer.Serialize(domainEvent),
+            Content = JsonSerializer.Serialize(domainEvent, domainEvent.GetType()),
             CreatedOn = DateTimeOffset.Now,
             IsProcessed = false,
             ProcessedOn = null,

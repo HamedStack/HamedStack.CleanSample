@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Text.Json.Serialization;
+using MediatR;
 
 namespace CleanSample.Framework.Domain.AggregateRoots;
 
@@ -10,9 +11,16 @@ namespace CleanSample.Framework.Domain.AggregateRoots;
 /// Implementing this interface allows for a standardized way to define and handle such events,
 /// promoting loose coupling and enhancing the modularity of the application.
 /// </remarks>
-public abstract class DomainEvent : INotification
+public class DomainEvent : INotification
 {
+    [JsonConstructor]
+    protected DomainEvent()
+    {
+        
+    }
+
     public string EventType => GetType().Name;
+    public string EventKey => GetType().AssemblyQualifiedName!;
     public DateTimeOffset DateOccurred => DateTimeOffset.UtcNow;
 }
 
