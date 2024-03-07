@@ -1,5 +1,4 @@
-﻿using CleanSample.Application.Commands;
-using CleanSample.Domain.AggregateRoots;
+﻿using CleanSample.Domain.AggregateRoots;
 using CleanSample.Domain.AggregateRoots.DomainEvents;
 using CleanSample.Domain.Enumerations;
 using CleanSample.Domain.ValueObjects;

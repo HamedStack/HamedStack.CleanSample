@@ -1,5 +1,4 @@
-﻿using CleanSample.Application.Commands;
-using CleanSample.Framework.Application.Cqrs.Commands;
+﻿using CleanSample.Framework.Application.Cqrs.Commands;
 using FluentValidation;
 
 namespace CleanSample.Application.Commands.Handlers
