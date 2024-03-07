@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.RegularExpressions;
 using CleanSample.Framework.Domain.AggregateRoots;
+using CleanSample.Framework.Infrastructure.Extensions;
 using CleanSample.Framework.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +34,7 @@ public class OutboxBackgroundService : BackgroundService
                 {
                     var eventKey = new Regex("\"EventKey\":\"(.+?)\"").Match(message.Content).Groups[1].ToString();
 
-                    var eventType = AppDomain.CurrentDomain.GetAssemblies()
+                    var eventType = AppDomain.CurrentDomain.GetAssemblies().Cache("CACHE_DOMAIN_ASSEMBLIES")
                         .SelectMany(x => x.GetTypes())
                         .FirstOrDefault(x => x.AssemblyQualifiedName == eventKey);
                     
