@@ -5,6 +5,7 @@ using CleanSample.Framework.Application.Extensions;
 using CleanSample.Framework.Infrastructure.Extensions;
 using FluentValidation;
 using CleanSample.Application.Commands.Handlers;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,14 @@ builder.Services.AddDbContext<EmployeeDbContext>(options =>
 builder.Services.AddFrameworkMediatR();
 
 builder.Services.AddMinimalApiEndpoints();
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingInMemory((context, cfg) =>
+    {
+        cfg.ConfigureEndpoints(context);
+    });
+});
 
 var app = builder.Build();
 

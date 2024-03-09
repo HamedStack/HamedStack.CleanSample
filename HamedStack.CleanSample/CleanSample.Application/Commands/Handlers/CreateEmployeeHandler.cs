@@ -5,6 +5,8 @@ using CleanSample.Domain.ValueObjects;
 using CleanSample.Framework.Application.Cqrs.Commands;
 using CleanSample.Framework.Application.Results;
 using CleanSample.Framework.Domain.Repositories;
+using CleanSample.IntegrationEvents;
+using MassTransit;
 
 namespace CleanSample.Application.Commands.Handlers;
 
@@ -12,11 +14,14 @@ public class CreateEmployeeHandler : ICommandHandler<CreateEmployeeCommand, int>
 {
     private readonly IRepository<Employee> _repository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public CreateEmployeeHandler(IRepository<Employee> repository, IUnitOfWork unitOfWork)
+
+    public CreateEmployeeHandler(IRepository<Employee> repository, IUnitOfWork unitOfWork, IPublishEndpoint publishEndpoint)
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<Result<int>> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
@@ -35,6 +40,16 @@ public class CreateEmployeeHandler : ICommandHandler<CreateEmployeeCommand, int>
 
         var result = await _repository.AddAsync(employee, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+
+        var integrationEvent = new EmployeeCreatedIntegrationEvent
+        {
+            EmployeeId = result.Id,
+            FirstName = request.FirstName,
+            LastName = request.LastName
+        };
+        await _publishEndpoint.Publish(integrationEvent, cancellationToken);
+        
         return result.Id;
     }
 }
