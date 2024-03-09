@@ -18,7 +18,7 @@ builder.Services.AddFrameworkDbContext<EmployeeDbContext>();
 
 builder.Services.AddDbContext<EmployeeDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("EmployeeDb") ?? "Data Source=database.db"));
-builder.Services.AddFrameworkMediatR(typeof(CreateEmployeeHandler));
+builder.Services.AddFrameworkMediatR();
 
 builder.Services.AddMinimalApiEndpoints();
 

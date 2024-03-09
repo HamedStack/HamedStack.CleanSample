@@ -12,20 +12,21 @@ namespace CleanSample.Framework.Application.Extensions;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddFrameworkMediatR(this IServiceCollection services, params Type[] types)
+    public static IServiceCollection AddFrameworkMediatR(this IServiceCollection services)
     {
-
-        var allTypes = new[]
+        var allTypess = new[]
         {
             typeof(IMediator),
             typeof(IQuery<>),
             typeof(ICommand<>),
             typeof(IQueryHandler<,>),
             typeof(ICommandHandler<,>)
-        }.Concat(types).ToArray();
-            
-        var assemblies =
-            AssemblyExtensions.AppDomainContains(allTypes).ToArray();
+        };
+        var assemblies1 = AssemblyExtensions.AppDomainContains(allTypess);
+        var assemblies2 = AssemblyExtensions.FindAssembliesOfInterface(typeof(ICommand<>));
+
+        var assemblies = assemblies1.Concat(assemblies2).ToArray();
+
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
