@@ -11,7 +11,7 @@ namespace CleanSample.Framework.Infrastructure.Extensions;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddFrameworkDbContext<T>(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructureFramework<T>(this IServiceCollection services)
         where T : DbContextBase
     {
 

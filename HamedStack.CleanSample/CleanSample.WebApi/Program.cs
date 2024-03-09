@@ -5,6 +5,7 @@ using CleanSample.Framework.Application.Extensions;
 using CleanSample.Framework.Infrastructure.Extensions;
 using FluentValidation;
 using CleanSample.Application.Commands.Handlers;
+using CleanSample.WebApi.Handlers;
 using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,13 +14,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddGlobalExceptionHandler();
+
 builder.Services.AddValidatorsFromAssemblyContaining<CreateEmployeeValidator>();
 
-builder.Services.AddFrameworkDbContext<EmployeeDbContext>();
+builder.Services.AddInfrastructureFramework<EmployeeDbContext>();
 
 builder.Services.AddDbContext<EmployeeDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("EmployeeDb") ?? "Data Source=database.db"));
-builder.Services.AddFrameworkMediatR();
+builder.Services.AddApplicationFramework();
 
 builder.Services.AddMinimalApiEndpoints();
 
@@ -41,6 +44,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseGlobalExceptionHandler();
 
 app.UseAuthorization();
 

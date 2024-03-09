@@ -13,6 +13,7 @@
 		<ProjectReference Include="..\CleanSample.Framework.Infrastructure\CleanSample.Framework.Infrastructure.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="MailKit" Version="4.4.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -22,6 +23,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="MimeKit" Version="4.4.0" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Migrations\" />

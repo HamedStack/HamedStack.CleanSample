@@ -253,8 +253,8 @@ public class Result : IResult
     {
         var result = mapper(Value);
         return IsSuccess
-            ? Result.Success(result)
-            : Result.Failure(result, Error!);
+            ? Success(result)
+            : Failure(result, Error!);
     }
     public TResult Match<TResult>(
         Func<object?, TResult> onSuccess,

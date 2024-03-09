@@ -5,6 +5,7 @@ using CleanSample.Framework.Application.Cqrs.Commands;
 using CleanSample.Framework.Application.Cqrs.Dispatchers;
 using CleanSample.Framework.Application.Cqrs.PipelineBehaviors;
 using CleanSample.Framework.Application.Cqrs.Queries;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,9 +13,9 @@ namespace CleanSample.Framework.Application.Extensions;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddFrameworkMediatR(this IServiceCollection services)
+    public static IServiceCollection AddApplicationFramework(this IServiceCollection services)
     {
-        var allTypess = new[]
+        var allTypes = new[]
         {
             typeof(IMediator),
             typeof(IQuery<>),
@@ -22,10 +23,12 @@ public static class ServiceExtensions
             typeof(IQueryHandler<,>),
             typeof(ICommandHandler<,>)
         };
-        var assemblies1 = AssemblyExtensions.AppDomainContains(allTypess);
-        var assemblies2 = AssemblyExtensions.FindAssembliesOfInterface(typeof(ICommand<>));
 
-        var assemblies = assemblies1.Concat(assemblies2).ToArray();
+        var assemblies1 = AssemblyExtensions.AppDomainContains(allTypes);
+        var assemblies2 = AssemblyExtensions.FindAssembliesOfInterface(typeof(ICommand<>));
+        var assemblies3 = AssemblyExtensions.FindAssembliesOfInterface(typeof(IQuery<>));
+
+        var assemblies = assemblies1.Concat(assemblies2).Concat(assemblies3).ToArray();
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
