@@ -3,10 +3,9 @@ using CleanSample.WebApi.REPR;
 using Microsoft.EntityFrameworkCore;
 using CleanSample.Framework.Application.Extensions;
 using CleanSample.Framework.Infrastructure.Extensions;
-using FluentValidation;
-using CleanSample.Application.Commands.Handlers;
 using CleanSample.WebApi.Handlers;
 using MassTransit;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,5 +49,23 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapMinimalApiEndpoints();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    try
+    {
+        var context = services.GetRequiredService<EmployeeDbContext>();
+        context.Database.Migrate();
+        context.Database.EnsureCreated();
+        SeedData.Initialize(services);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred seeding the DB. {exceptionMessage}", ex.Message);
+    }
+}
 
 app.Run();

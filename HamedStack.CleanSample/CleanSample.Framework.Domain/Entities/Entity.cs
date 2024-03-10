@@ -29,7 +29,7 @@ public abstract class Entity<TId> : IId<TId>
     /// <summary>
     /// Gets or sets the identifier for the entity.
     /// </summary>
-    public TId Id { get; }
+    public TId Id { get; set; }
 
     /// <summary>
     /// Determines whether two entities are not equal.

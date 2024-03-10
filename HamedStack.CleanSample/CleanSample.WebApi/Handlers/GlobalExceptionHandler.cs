@@ -1,12 +1,6 @@
-﻿
-
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace CleanSample.WebApi.Handlers;

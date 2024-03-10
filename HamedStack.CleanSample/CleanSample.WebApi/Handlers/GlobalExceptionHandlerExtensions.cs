@@ -1,6 +1,4 @@
-﻿using CleanSample.WebApi.Handlers;
-
-namespace CleanSample.WebApi.Handlers;
+﻿namespace CleanSample.WebApi.Handlers;
 
 /// <summary>
 /// Contains extension methods for registering and configuring the global exception handler.
