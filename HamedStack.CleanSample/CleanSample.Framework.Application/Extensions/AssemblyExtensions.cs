@@ -14,62 +14,7 @@ internal static class AssemblyExtensions
     {
         return AppDomain.CurrentDomain.GetAssemblies().Where(a => a.Contains(types));
     }
-
-    internal static IEnumerable<Type> FindImplementationsOfInterface(Type interfaceType)
-    {
-        var appAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-        var implementations = new HashSet<Type>();
-
-        foreach (var assembly in appAssemblies)
-        {
-            foreach (var type in assembly.GetTypes())
-            {
-                if (!type.IsClass || type.IsAbstract) continue;
-
-                var interfaces = type.GetInterfaces();
-                foreach (var @interface in interfaces)
-                {
-                    if (@interface == interfaceType ||
-                        (@interface.IsGenericType && @interface.GetGenericTypeDefinition() == interfaceType))
-                    {
-                        implementations.Add(type);
-                        break;
-                    }
-                }
-            }
-        }
-
-        return implementations;
-    }
-    internal static IEnumerable<Assembly> FindAssembliesOfInterface(Type interfaceType)
-    {
-        var appAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-        var assemblies = new HashSet<Assembly>();
-
-        foreach (var assembly in appAssemblies)
-        {
-            foreach (var type in assembly.GetTypes())
-            {
-                if (!type.IsClass || type.IsAbstract) continue;
-
-                var interfaces = type.GetInterfaces();
-                foreach (var @interface in interfaces)
-                {
-                    if (@interface == interfaceType ||
-                        (@interface.IsGenericType && @interface.GetGenericTypeDefinition() == interfaceType))
-                    {
-                        assemblies.Add(assembly);
-                        break;
-                    }
-                }
-            }
-        }
-
-        return assemblies;
-    }
-    public static IEnumerable<Type> FindImplementationsOf(this IEnumerable<Assembly> assemblies, Type targetType)
+    internal static IEnumerable<Type> FindImplementationsOf(this IEnumerable<Assembly> assemblies, Type targetType)
     {
         var types = new List<Type>();
 
@@ -103,7 +48,7 @@ internal static class AssemblyExtensions
         return types;
     }
 
-    public static IEnumerable<Assembly> FindAssembliesWithImplementationsOf(this IEnumerable<Assembly> assemblies, Type targetType)
+    internal static IEnumerable<Assembly> FindAssembliesWithImplementationsOf(this IEnumerable<Assembly> assemblies, Type targetType)
     {
         var resultAssemblies = new HashSet<Assembly>();
 

@@ -24,9 +24,11 @@ public static class ServiceExtensions
             typeof(ICommandHandler<,>)
         };
 
+        var appDomain = AppDomain.CurrentDomain.GetAssemblies();
+
         var assemblies1 = AssemblyExtensions.AppDomainContains(allTypes);
-        var assemblies2 = AssemblyExtensions.FindAssembliesOfInterface(typeof(ICommand<>));
-        var assemblies3 = AssemblyExtensions.FindAssembliesOfInterface(typeof(IQuery<>));
+        var assemblies2 = appDomain.FindAssembliesWithImplementationsOf(typeof(ICommand<>));
+        var assemblies3 = appDomain.FindAssembliesWithImplementationsOf(typeof(IQuery<>));
 
         var assemblies = assemblies1.Concat(assemblies2).Concat(assemblies3).ToArray();
 
