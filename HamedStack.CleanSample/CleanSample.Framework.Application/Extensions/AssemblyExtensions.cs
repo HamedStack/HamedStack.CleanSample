@@ -82,7 +82,7 @@ internal static class AssemblyExtensions
 
         return resultAssemblies;
     }
-    internal static IEnumerable<Assembly> GetDomainAssemblies()
+    internal static IEnumerable<Assembly> GetAllAppDomainAssemblies()
     {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
 

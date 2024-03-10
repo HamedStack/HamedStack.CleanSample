@@ -15,6 +15,15 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddApplicationFramework(this IServiceCollection services)
     {
+        var commandValidatorsAssemblies = AssemblyExtensions.GetAllAppDomainAssemblies().FindAssembliesWithImplementationsOf(typeof(CommandValidator<,>));
+        var queryValidatorsAssemblies = AssemblyExtensions.GetAllAppDomainAssemblies().FindAssembliesWithImplementationsOf(typeof(QueryValidator<,>));
+
+        var validatorsAssemblies = commandValidatorsAssemblies.Concat(queryValidatorsAssemblies).ToList();
+        if (validatorsAssemblies.Any())
+        {
+            services.AddValidatorsFromAssemblies(validatorsAssemblies);
+        }
+
         var allTypes = new[]
         {
             typeof(IMediator),

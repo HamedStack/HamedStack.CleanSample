@@ -16,12 +16,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddGlobalExceptionHandler();
 
-builder.Services.AddValidatorsFromAssemblyContaining<CreateEmployeeValidator>();
-
 builder.Services.AddInfrastructureFramework<EmployeeDbContext>();
 
 builder.Services.AddDbContext<EmployeeDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("EmployeeDb") ?? "Data Source=database.db"));
+
 builder.Services.AddApplicationFramework();
 
 builder.Services.AddMinimalApiEndpoints();
