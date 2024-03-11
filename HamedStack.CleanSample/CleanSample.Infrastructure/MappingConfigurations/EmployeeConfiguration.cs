@@ -1,4 +1,6 @@
 ﻿using CleanSample.Domain.AggregateRoots;
+using CleanSample.Domain.Enumerations;
+using CleanSample.Framework.Infrastructure.ValueConverters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,10 +22,8 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
         {
             ba.Property(t => t.LastName).HasColumnName("LastName").HasMaxLength(100);
         });
-        builder.ComplexProperty(e => e.Gender, ba =>
-        {
-            ba.Property(t => t.Value).HasColumnName("Gender").IsRequired();
-        });
+        builder.Property(e => e.Gender).HasConversion<EnumerationValueConverter<Gender>>();
+
         builder.OwnsOne(e => e.Title, ba =>
         {
             ba.Property(t => t.Value).HasColumnName("Title").HasMaxLength(100);

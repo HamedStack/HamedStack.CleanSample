@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanSample.Infrastructure.Migrations
 {
     [DbContext(typeof(EmployeeDbContext))]
-    [Migration("20240311094339_Init")]
+    [Migration("20240311132938_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -29,6 +29,9 @@ namespace CleanSample.Infrastructure.Migrations
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("TEXT");
+
+                    b.Property<long>("Gender")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("HireDate")
                         .HasColumnType("TEXT");
@@ -65,15 +68,6 @@ namespace CleanSample.Infrastructure.Migrations
                                 .HasMaxLength(100)
                                 .HasColumnType("TEXT")
                                 .HasColumnName("LastName");
-                        });
-
-                    b.ComplexProperty<Dictionary<string, object>>("Gender", "CleanSample.Domain.AggregateRoots.Employee.Gender#Gender", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<long>("Value")
-                                .HasColumnType("INTEGER")
-                                .HasColumnName("Gender");
                         });
 
                     b.HasKey("Id");

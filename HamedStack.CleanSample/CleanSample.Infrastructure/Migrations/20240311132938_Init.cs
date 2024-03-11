@@ -17,6 +17,7 @@ namespace CleanSample.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Gender = table.Column<long>(type: "INTEGER", nullable: false),
                     Title = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     BirthDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     HireDate = table.Column<DateTime>(type: "TEXT", nullable: true),
@@ -32,8 +33,7 @@ namespace CleanSample.Infrastructure.Migrations
                     ManagerId = table.Column<int>(type: "INTEGER", nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     FirstName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Gender = table.Column<long>(type: "INTEGER", nullable: false)
+                    LastName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
