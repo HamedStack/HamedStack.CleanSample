@@ -69,3 +69,9 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+
+
+// Exposing for integration test.
+public partial class Program
+{
+}
