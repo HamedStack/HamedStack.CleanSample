@@ -1,10 +1,11 @@
-using CleanSample.Infrastructure;
-using CleanSample.WebApi.REPR;
-using Microsoft.EntityFrameworkCore;
 using CleanSample.Framework.Application.Extensions;
 using CleanSample.Framework.Infrastructure.Extensions;
+using CleanSample.Infrastructure;
+using CleanSample.WebApi.DynamicPermission;
 using CleanSample.WebApi.Handlers;
+using CleanSample.WebApi.REPR;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,12 @@ builder.Services.AddMassTransit(x =>
         cfg.ConfigureEndpoints(context);
     });
 });
+
+var cacheOptions = new AuthorizationCacheOptions
+{
+    DefaultCacheDuration = TimeSpan.FromMinutes(150)
+};
+builder.Services.AddDynamicPermission(cacheOptions);
 
 var app = builder.Build();
 
@@ -62,7 +69,7 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        var logger = services.GetRequiredService<ILogger<Program>>();
+        var logger = services.GetRequiredService<ILogger<CleanSample.WebApi.Program>>();
         logger.LogError(ex, "An error occurred seeding the DB. {exceptionMessage}", ex.Message);
     }
 }
@@ -71,6 +78,9 @@ app.Run();
 
 
 // Exposing for integration test.
-public partial class Program
+namespace CleanSample.WebApi
 {
+    public partial class Program
+    {
+    }
 }
