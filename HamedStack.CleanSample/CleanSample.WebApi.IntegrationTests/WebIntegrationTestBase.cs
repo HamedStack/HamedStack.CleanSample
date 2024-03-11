@@ -1,6 +1,5 @@
 ﻿using CleanSample.Framework.Application.Cqrs.Dispatchers;
 using CleanSample.Infrastructure;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanSample.WebApi.IntegrationTests;
