@@ -15,6 +15,6 @@ public abstract class WebIntegrationTestBase : IClassFixture<IntegrationTestWebA
         var scope = factory.Services.CreateScope();
         Dispatcher = scope.ServiceProvider.GetRequiredService<ICommandQueryDispatcher>();
         DbContext = scope.ServiceProvider.GetRequiredService<EmployeeDbContext>();
-        HttpClient = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>().CreateClient();
+        HttpClient = factory.CreateClient();
     }
 }

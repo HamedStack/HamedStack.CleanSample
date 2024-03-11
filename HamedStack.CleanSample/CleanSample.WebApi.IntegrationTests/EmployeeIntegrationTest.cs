@@ -1,6 +1,10 @@
 using CleanSample.Application.Commands;
 using CleanSample.WebApi.Endpoints;
 using FluentAssertions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Text;
+using System.Text.Json;
+using System.Net;
 
 namespace CleanSample.WebApi.IntegrationTests;
 
@@ -34,6 +38,24 @@ public class EmployeeIntegrationTest : WebIntegrationTestBase
 
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeGreaterThan(20);
+    }
+
+    [Fact]
+    public async Task ShouldInsertDataIntoDatabaseViaUrl()
+    {
+        var createEmployeeCommand = new CreateEmployeeCommand
+        {
+            Email = "hamedfathi@example.com",
+            BirthDate = new DateTime(1988, 1, 1),
+            Gender = 1,
+            FirstName = "hamed",
+            LastName = "fathi"
+        };
+        var json = JsonSerializer.Serialize(createEmployeeCommand);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var response = await HttpClient.PostAsync("/employee", content);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
 }
