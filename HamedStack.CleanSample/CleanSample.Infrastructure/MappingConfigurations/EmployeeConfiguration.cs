@@ -60,9 +60,7 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
         {
             ba.Property(t => t.Value).HasColumnName("Email").HasMaxLength(100);
         });
-        builder.OwnsOne(e => e.EmployeeStatus, ba =>
-        {
-            ba.Property(t => t.Value).HasColumnName("EmployeeStatus").HasMaxLength(100);
-        });
+        builder.Property(e => e.EmployeeStatus).HasConversion<EnumerationValueConverter<EmployeeStatus>>();
+
     }
 }
