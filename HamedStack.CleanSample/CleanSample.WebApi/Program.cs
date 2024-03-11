@@ -5,7 +5,6 @@ using CleanSample.Framework.Application.Extensions;
 using CleanSample.Framework.Infrastructure.Extensions;
 using CleanSample.WebApi.Handlers;
 using MassTransit;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,5 @@
-﻿using CleanSample.Domain.AggregateRoots;
+﻿using Bogus;
+using CleanSample.Domain.AggregateRoots;
 using CleanSample.Domain.Enumerations;
 using CleanSample.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,7 @@ public static class SeedData
         dbContext.SaveChanges();
 
         dbContext.Employees.AddRange(GetEmployees());
+        dbContext.Employees.AddRange(GenerateEmployees());
 
         dbContext.SaveChanges();
     }
@@ -40,7 +42,7 @@ public static class SeedData
     {
         var employees = new List<Employee>()
         {
-            new Employee
+            new()
             {
                 Id = 1,
                 FullName = new FullName("Jane", "Doe"),
@@ -52,7 +54,7 @@ public static class SeedData
                 EmployeeStatus = EmployeeStatus.Active,
                 Phone = new Phone("1234567890"),
             },
-            new Employee
+            new()
             {
                 Id = 2,
                 FullName = new FullName("John", "Smith"),
@@ -64,7 +66,7 @@ public static class SeedData
                 EmployeeStatus = EmployeeStatus.Active,
                 ReportsTo = 1,
             },
-            new Employee
+            new()
             {
                 Id = 3,
                 FullName = new FullName("Emily", "Jones"),
@@ -79,5 +81,61 @@ public static class SeedData
         };
 
         return employees;
+    }
+
+    private static IEnumerable<Employee> GenerateEmployees()
+    {
+        var employeeTitles = new[]
+        {
+            "Software Engineer",
+            "Project Manager",
+            "Business Analyst",
+            "Quality Assurance Engineer",
+            "Product Manager",
+            "Graphic Designer",
+            "System Administrator",
+            "Network Engineer",
+            "UX/UI Designer",
+            "Data Scientist"
+        };
+        var employeeIds = 4;
+        var employees = new Faker<Employee>()
+                .RuleFor(e => e.Id, f => employeeIds++)
+                .RuleFor(e => e.FullName, f =>
+                {
+                    var firstName = f.Name.FirstName();
+                    var lastName = f.Name.LastName();
+                    return new FullName(firstName, lastName);
+                })
+                .RuleFor(e => e.BirthDate, f => f.Date.Between(new DateTime(1920, 1, 1), new DateTime(2000, 1, 1)))
+                .RuleFor(e => e.HireDate, f => f.Date.Between(new DateTime(2020, 1, 1), DateTime.Now))
+                .RuleFor(e => e.Email, f => new Email(f.Internet.Email()))
+                .RuleFor(e => e.Gender, f =>
+                {
+                    var oneOrTwo = f.Random.Int(1, 2);
+                    return Gender.FromValue(oneOrTwo);
+                })
+                .RuleFor(e => e.Title, f => new Title(f.PickRandom(employeeTitles)))
+                .RuleFor(e => e.Phone, f => new Phone(f.Phone.PhoneNumber()))
+                .RuleFor(e => e.Address, f =>
+                {
+                    var street = f.Address.StreetAddress();
+                    var city = f.Address.City();
+                    var state = f.Address.State();
+                    var country = f.Address.Country();
+                    var postalCode = f.Address.ZipCode();
+                    return new Address(street, city, state, country, postalCode);
+                })
+                .RuleFor(e => e.Fax, f => new Phone(f.Phone.PhoneNumber()))
+                .RuleFor(e => e.ReportsTo, f => f.Random.Int(1, 3))
+                .RuleFor(e => e.EmployeeStatus, f =>
+                {
+                    var oneToFour = f.Random.Int(1, 4);
+                    return EmployeeStatus.FromValue(oneToFour);
+                })
+
+            ;
+
+        return employees.Generate(17);
     }
 }

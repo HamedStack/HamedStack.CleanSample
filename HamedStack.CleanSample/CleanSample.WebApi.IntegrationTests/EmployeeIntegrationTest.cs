@@ -14,6 +14,6 @@ public class EmployeeIntegrationTest : WebIntegrationTestBase
         var employees = DbContext.Employees.ToList();
         var count = employees.Count;
 
-        count.Should().Be(3);
+        count.Should().Be(20);
     }
 }
