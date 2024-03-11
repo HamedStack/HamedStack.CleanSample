@@ -24,6 +24,7 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>
             var sp = services.BuildServiceProvider();
             using var scope = sp.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<EmployeeDbContext>();
+            db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             SeedData.Initialize(scope.ServiceProvider);
         });
