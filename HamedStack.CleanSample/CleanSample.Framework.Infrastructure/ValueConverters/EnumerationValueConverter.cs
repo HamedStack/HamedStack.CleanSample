@@ -12,3 +12,13 @@ public class EnumerationValueConverter<TEnumeration> : ValueConverter<TEnumerati
     {
     }
 }
+
+public class EnumerationNameValueConverter<TEnumeration> : ValueConverter<TEnumeration, string>
+    where TEnumeration : Enumeration<TEnumeration>
+{
+    public EnumerationNameValueConverter() : base(
+        v => v.Name,
+        v => Enumeration<TEnumeration>.FromName(v))
+    {
+    }
+}
