@@ -6,6 +6,7 @@ namespace CleanSample.WebApi.IntegrationTests;
 
 public abstract class WebIntegrationTestBase : IClassFixture<IntegrationTestWebAppFactory>
 {
+    public HttpClient HttpClient { get; }
     protected ICommandQueryDispatcher Dispatcher { get; }
     protected EmployeeDbContext DbContext { get; }
 
@@ -14,5 +15,6 @@ public abstract class WebIntegrationTestBase : IClassFixture<IntegrationTestWebA
         var scope = factory.Services.CreateScope();
         Dispatcher = scope.ServiceProvider.GetRequiredService<ICommandQueryDispatcher>();
         DbContext = scope.ServiceProvider.GetRequiredService<EmployeeDbContext>();
+        HttpClient = scope.ServiceProvider.GetRequiredService<IHttpClientFactory>().CreateClient();
     }
 }

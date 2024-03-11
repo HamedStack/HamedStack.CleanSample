@@ -38,6 +38,8 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>
             db.Database.EnsureCreated();
             SeedData.Initialize(scope.ServiceProvider);
 
+            services.AddHttpClient();
+
             builder.UseEnvironment("Development");
         });
     }

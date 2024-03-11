@@ -25,7 +25,7 @@ public class EmployeeIntegrationTest : WebIntegrationTestBase
         var createEmployeeCommand = new CreateEmployeeCommand
         {
             Email = "hamedfathi@example.com",
-            BirthDate = new DateTime(1988,1,1),
+            BirthDate = new DateTime(1988, 1, 1),
             Gender = 1,
             FirstName = "hamed",
             LastName = "fathi"
@@ -35,4 +35,5 @@ public class EmployeeIntegrationTest : WebIntegrationTestBase
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeGreaterThan(20);
     }
+
 }
