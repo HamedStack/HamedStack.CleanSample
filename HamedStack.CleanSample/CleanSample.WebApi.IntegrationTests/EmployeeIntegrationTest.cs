@@ -22,7 +22,7 @@ public class EmployeeIntegrationTest : WebIntegrationTestBase
     [Fact]
     public async Task ShouldInsertDataIntoDatabase()
     {
-        var createEmployeeCommand = new CreateEmployeeCommand()
+        var createEmployeeCommand = new CreateEmployeeCommand
         {
             Email = "hamedfathi@example.com",
             BirthDate = new DateTime(1988,1,1),

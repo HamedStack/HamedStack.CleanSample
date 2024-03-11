@@ -24,7 +24,7 @@ public sealed class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipeline
         {
             var requestName = typeof(TRequest).Name;
 
-            var jsonObj = JsonSerializer.Serialize(request, new JsonSerializerOptions()
+            var jsonObj = JsonSerializer.Serialize(request, new JsonSerializerOptions
             {
                 WriteIndented = true
             });

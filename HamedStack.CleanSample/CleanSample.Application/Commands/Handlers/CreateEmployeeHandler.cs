@@ -27,7 +27,7 @@ public class CreateEmployeeHandler : ICommandHandler<CreateEmployeeCommand, int>
     public async Task<Result<int>> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
     {
 
-        var employee = new Employee()
+        var employee = new Employee
         {
             FullName = new FullName(request.FirstName, request.LastName),
             Gender = Gender.FromValue(request.Gender),
@@ -36,7 +36,7 @@ public class CreateEmployeeHandler : ICommandHandler<CreateEmployeeCommand, int>
         };
 
 
-        employee.AddDomainEvent(new EmployeeCreatedDomainEvent() { FirstName = request.FirstName, LastName = request.LastName });
+        employee.AddDomainEvent(new EmployeeCreatedDomainEvent { FirstName = request.FirstName, LastName = request.LastName });
 
         var result = await _repository.AddAsync(employee, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

@@ -32,7 +32,7 @@ public sealed class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavio
         if (elapsedMilliseconds <= SlowRequestThreshold) return response;
 
         var requestName = typeof(TRequest).Name;
-        var jsonObj = JsonSerializer.Serialize(request, new JsonSerializerOptions()
+        var jsonObj = JsonSerializer.Serialize(request, new JsonSerializerOptions
         {
             WriteIndented = true
         });

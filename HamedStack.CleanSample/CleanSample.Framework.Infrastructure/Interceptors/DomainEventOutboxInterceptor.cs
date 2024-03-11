@@ -31,7 +31,7 @@ internal class DomainEventOutboxInterceptor : SaveChangesInterceptor
             })
             .ToList();
 
-        var outboxMessages = domainEvents.Select(domainEvent => new OutboxMessage()
+        var outboxMessages = domainEvents.Select(domainEvent => new OutboxMessage
         {
             Id = Guid.NewGuid(),
             Name = domainEvent.GetType().Name,

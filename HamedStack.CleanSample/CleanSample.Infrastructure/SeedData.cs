@@ -40,7 +40,7 @@ public static class SeedData
 
     private static IEnumerable<Employee> GetEmployees()
     {
-        var employees = new List<Employee>()
+        var employees = new List<Employee>
         {
             new()
             {
