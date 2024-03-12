@@ -17,7 +17,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddGlobalExceptionHandler();
 
-builder.Services.AddInfrastructureFramework<EmployeeDbContext, ApplicationUser, IdentityRole>();
+builder.Services.AddInfrastructureFramework<EmployeeDbContext, ApplicationUser, IdentityRole>(opt =>
+{
+    opt.RequireHttpsMetadata = false;
+    opt.SigningKey = "MyP@ssW0rd";
+    opt.ValidAudience = "https://example.com/";
+    opt.ValidIssuer = "https://example.com/";
+});
 
 builder.Services.AddDbContext<EmployeeDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("EmployeeDb") ?? "Data Source=database.db"));

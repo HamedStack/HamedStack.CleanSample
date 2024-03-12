@@ -1,6 +1,7 @@
 ﻿// ReSharper disable UnusedMember.Global
 // ReSharper disable IdentifierTypo
 
+using System.Text;
 using CleanSample.Framework.Domain.AggregateRoots;
 using CleanSample.Framework.Domain.Repositories;
 using CleanSample.Framework.Infrastructure.Outbox;
@@ -15,7 +16,7 @@ namespace CleanSample.Framework.Infrastructure.Extensions;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddInfrastructureFramework<TDbContext, TIdentityUser, TIdentityRole>(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructureFramework<TDbContext, TIdentityUser, TIdentityRole>(this IServiceCollection services, Action<JsonWebTokenOption> jwtOption)
             where TDbContext : DbContextBase
             where TIdentityUser : ApplicationUser
             where TIdentityRole : IdentityRole
@@ -33,6 +34,9 @@ public static class ServiceExtensions
             .AddEntityFrameworkStores<TDbContext>()
             .AddDefaultTokenProviders();
 
+        var jwtConfig = new JsonWebTokenOption();
+        jwtOption(jwtConfig);
+
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -42,22 +46,22 @@ public static class ServiceExtensions
             .AddJwtBearer(options =>
             {
                 options.SaveToken = true;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters()
+                options.RequireHttpsMetadata = jwtConfig.RequireHttpsMetadata;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     ClockSkew = TimeSpan.Zero,
-                    //ValidAudience = configurationManager[$"{jwtConfig}:ValidAudience"],
-                    //ValidIssuer = configurationManager[$"{jwtConfig}:ValidIssuer"],
-                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configurationManager[$"{jwtConfig}:Secret"]!))
+                    ValidAudience = jwtConfig.ValidAudience,
+                    ValidIssuer = jwtConfig.ValidIssuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SigningKey))
                 };
             });
 
         services.AddScoped<IIdentityService, IdentityService>();
-
+        
         return services;
     }
 }
