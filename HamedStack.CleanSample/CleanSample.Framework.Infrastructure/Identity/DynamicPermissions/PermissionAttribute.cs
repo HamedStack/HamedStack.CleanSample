@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 
-namespace CleanSample.WebApi.DynamicPermission;
+namespace CleanSample.Framework.Infrastructure.Identity.DynamicPermissions;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
 public class PermissionAttribute : AuthorizeAttribute

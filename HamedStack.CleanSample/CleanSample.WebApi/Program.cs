@@ -1,14 +1,13 @@
 using CleanSample.Framework.Application.Extensions;
 using CleanSample.Framework.Infrastructure.Extensions;
 using CleanSample.Framework.Infrastructure.Identity;
+using CleanSample.Framework.Infrastructure.Identity.DynamicPermissions;
 using CleanSample.Infrastructure;
-using CleanSample.WebApi.DynamicPermission;
 using CleanSample.WebApi.Handlers;
 using CleanSample.WebApi.REPR;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Tls;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,11 +34,7 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
-var cacheOptions = new AuthorizationCacheOptions
-{
-    DefaultCacheDuration = TimeSpan.FromMinutes(150)
-};
-builder.Services.AddDynamicPermission(cacheOptions);
+builder.Services.AddDynamicPermission(opt => opt.DisableCache = true);
 
 var app = builder.Build();
 

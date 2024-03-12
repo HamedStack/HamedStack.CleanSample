@@ -6,10 +6,7 @@ using CleanSample.Framework.Domain.Repositories;
 using CleanSample.Framework.Infrastructure.Outbox;
 using CleanSample.Framework.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using System.Text;
 using CleanSample.Framework.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -18,7 +15,6 @@ namespace CleanSample.Framework.Infrastructure.Extensions;
 
 public static class ServiceExtensions
 {
-
     public static IServiceCollection AddInfrastructureFramework<TDbContext, TIdentityUser, TIdentityRole>(this IServiceCollection services)
             where TDbContext : DbContextBase
             where TIdentityUser : ApplicationUser
@@ -32,7 +28,6 @@ public static class ServiceExtensions
 
         services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
         services.AddHostedService<OutboxBackgroundService>();
-
 
         services.AddIdentity<TIdentityUser, TIdentityRole>()
             .AddEntityFrameworkStores<TDbContext>()
@@ -60,6 +55,8 @@ public static class ServiceExtensions
                     //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configurationManager[$"{jwtConfig}:Secret"]!))
                 };
             });
+
+        services.AddScoped<IIdentityService, IdentityService>();
 
         return services;
     }

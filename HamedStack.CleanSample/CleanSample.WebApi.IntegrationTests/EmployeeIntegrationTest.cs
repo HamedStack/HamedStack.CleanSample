@@ -1,7 +1,6 @@
 using CleanSample.Application.Commands;
 using CleanSample.WebApi.Endpoints;
 using FluentAssertions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Text;
 using System.Text.Json;
 using System.Net;

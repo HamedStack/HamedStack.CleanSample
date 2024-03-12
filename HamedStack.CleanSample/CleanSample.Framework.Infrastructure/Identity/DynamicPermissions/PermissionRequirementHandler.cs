@@ -1,8 +1,9 @@
 ﻿// ReSharper disable UnusedMember.Global
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
-namespace CleanSample.WebApi.DynamicPermission;
+namespace CleanSample.Framework.Infrastructure.Identity.DynamicPermissions;
 
 public class PermissionRequirementHandler : AuthorizationHandler<PermissionRequirement>
 {

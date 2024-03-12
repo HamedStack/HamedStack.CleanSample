@@ -2,9 +2,10 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CleanSample.WebApi.DynamicPermission;
+namespace CleanSample.Framework.Infrastructure.Identity.DynamicPermissions;
 public class AuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
 {
     private readonly IMemoryCache _cache;
@@ -24,20 +25,29 @@ public class AuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
 
     public override async Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
     {
+
+        if (_cacheOptions.DisableCache)
+        {
+            return await GetAuthorizationPolicy(policyName);
+        }
         return await _cache.GetOrCreateAsync(policyName, async entry =>
         {
             entry.SetAbsoluteExpiration(_cacheOptions.DefaultCacheDuration);
+            return await GetAuthorizationPolicy(policyName);
+        }).ConfigureAwait(false);
 
-            var policy = await base.GetPolicyAsync(policyName);
+        async Task<AuthorizationPolicy> GetAuthorizationPolicy(string pn)
+        {
+            var policy = await base.GetPolicyAsync(pn);
 
             if (policy != null) return policy;
 
             policy = new AuthorizationPolicyBuilder()
-                .AddRequirements(new PermissionRequirement(policyName))
+                .AddRequirements(new PermissionRequirement(pn))
                 .Build();
-            _logger.LogInformation($"Generated policy {policyName}");
+            _logger.LogInformation($"Generated policy {pn}");
 
             return policy;
-        }).ConfigureAwait(false);
+        }
     }
 }
