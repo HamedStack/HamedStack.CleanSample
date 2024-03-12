@@ -1,6 +1,4 @@
-﻿// ReSharper disable ConvertToPrimaryConstructor
-
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using CleanSample.Framework.Domain.AggregateRoots.Abstractions;
 using CleanSample.Framework.Domain.Entities;
 using CleanSample.Framework.Domain.Repositories;

@@ -1,11 +1,14 @@
 using CleanSample.Framework.Application.Extensions;
 using CleanSample.Framework.Infrastructure.Extensions;
+using CleanSample.Framework.Infrastructure.Identity;
 using CleanSample.Infrastructure;
 using CleanSample.WebApi.DynamicPermission;
 using CleanSample.WebApi.Handlers;
 using CleanSample.WebApi.REPR;
 using MassTransit;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Tls;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,10 @@ builder.Services.AddInfrastructureFramework<EmployeeDbContext>();
 
 builder.Services.AddDbContext<EmployeeDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("EmployeeDb") ?? "Data Source=database.db"));
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<EmployeeDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddApplicationFramework();
 
@@ -51,6 +58,7 @@ app.UseHttpsRedirection();
 
 app.UseGlobalExceptionHandler();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

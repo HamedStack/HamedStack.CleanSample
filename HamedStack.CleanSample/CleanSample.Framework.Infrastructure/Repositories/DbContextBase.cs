@@ -1,32 +1,22 @@
-﻿// ReSharper disable ConvertToPrimaryConstructor
-
-using System.Data;
+﻿using System.Data;
 using System.Linq.Expressions;
 using System.Reflection;
 using CleanSample.Framework.Domain.AggregateRoots.Abstractions;
 using CleanSample.Framework.Domain.Repositories;
+using CleanSample.Framework.Infrastructure.Identity;
 using CleanSample.Framework.Infrastructure.Interceptors;
 using CleanSample.Framework.Infrastructure.Outbox;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
 namespace CleanSample.Framework.Infrastructure.Repositories;
 
-public class DbContextBase : DbContext, IUnitOfWork
+public class DbContextBase : IdentityDbContext<ApplicationUser>, IUnitOfWork
 {
     private readonly ILogger<DbContextBase> _logger;
     private IDbContextTransaction? _dbContextTransaction;
-
-    /*
-    private readonly IDomainEventDispatcher _domainEventDispatcher;
-    public DbContextBase(DbContextOptions options, IDomainEventDispatcher domainEventDispatcher, ILogger<DbContextBase> logger)
-        : base(options)
-    {
-        _domainEventDispatcher = domainEventDispatcher;
-        _logger = logger;
-    }
-    */
 
     internal DbSet<OutboxMessage> OutboxMessages { get; set; } = null!;
 
@@ -67,7 +57,6 @@ public class DbContextBase : DbContext, IUnitOfWork
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // optionsBuilder.AddInterceptors(new DomainEventInterceptor(_domainEventDispatcher));
         optionsBuilder.AddInterceptors(new DomainEventOutboxInterceptor());
         optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
         optionsBuilder.AddInterceptors(new AuditInterceptor());
@@ -76,7 +65,6 @@ public class DbContextBase : DbContext, IUnitOfWork
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         SetRowVersion(modelBuilder);
         SetSoftDeleteQueryFilter(modelBuilder);
         base.OnModelCreating(modelBuilder);

@@ -4,7 +4,7 @@ namespace CleanSample.Infrastructure.Repositories;
 
 public class EmployeeRepository : Repository<EmployeeRepository>
 {
-    public EmployeeRepository(DbContextBase dbContext, TimeProvider timeProvider) : base(dbContext, timeProvider)
+    public EmployeeRepository(DbContextBase identityDbContext, TimeProvider timeProvider) : base(identityDbContext, timeProvider)
     {
     }
 }
