@@ -1,4 +1,4 @@
-﻿namespace CleanSample.Framework.Application.Results;
+﻿namespace CleanSample.Domain.Results;
 
 public class Error(string message, ErrorSeverity severity = ErrorSeverity.Error, Exception? exception = null)
 {

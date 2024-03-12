@@ -1,4 +1,4 @@
-﻿using CleanSample.Framework.Application.Results;
+﻿using CleanSample.Domain.Results;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

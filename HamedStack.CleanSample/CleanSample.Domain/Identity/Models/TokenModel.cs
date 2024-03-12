@@ -1,4 +1,4 @@
-﻿namespace CleanSample.Framework.Infrastructure.Identity.Models;
+﻿namespace CleanSample.Domain.Identity.Models;
 
 public class TokenModel
 {

@@ -1,6 +1,6 @@
 ﻿// ReSharper disable UnusedTypeParameter
 
-using CleanSample.Framework.Application.Results;
+using CleanSample.Domain.Results;
 using MediatR;
 
 namespace CleanSample.Framework.Application.Cqrs.Commands;

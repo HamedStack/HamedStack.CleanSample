@@ -1,7 +1,7 @@
 ﻿// ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedVariable
 
-namespace CleanSample.Framework.Application.Paging;
+namespace CleanSample.Domain.Paging;
 
 /// <summary>
 /// Provides extension methods for pagination on various data structures.

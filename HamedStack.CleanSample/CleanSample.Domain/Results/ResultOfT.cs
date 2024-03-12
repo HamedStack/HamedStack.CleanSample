@@ -1,4 +1,4 @@
-﻿namespace CleanSample.Framework.Application.Results;
+﻿namespace CleanSample.Domain.Results;
 
 
 public class Result<T> : IResult<T>

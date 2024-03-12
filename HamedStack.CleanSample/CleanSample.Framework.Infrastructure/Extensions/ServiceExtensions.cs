@@ -2,6 +2,7 @@
 // ReSharper disable IdentifierTypo
 
 using System.Text;
+using CleanSample.Domain.Identity;
 using CleanSample.Framework.Domain.AggregateRoots;
 using CleanSample.Framework.Domain.Repositories;
 using CleanSample.Framework.Infrastructure.Outbox;

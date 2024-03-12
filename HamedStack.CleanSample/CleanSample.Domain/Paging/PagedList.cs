@@ -1,4 +1,4 @@
-﻿namespace CleanSample.Framework.Application.Paging;
+﻿namespace CleanSample.Domain.Paging;
 
 /// <summary>
 /// Represents a paged list of items that is created from a <see cref="IQueryable{T}"/> source.

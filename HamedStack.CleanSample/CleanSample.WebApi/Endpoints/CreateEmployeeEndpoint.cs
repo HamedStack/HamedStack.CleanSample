@@ -1,6 +1,6 @@
 ﻿using CleanSample.Application.Commands;
+using CleanSample.Domain.Results;
 using CleanSample.Framework.Application.Cqrs.Dispatchers;
-using CleanSample.Framework.Application.Results;
 using CleanSample.WebApi.REPR;
 
 namespace CleanSample.WebApi.Endpoints;
