@@ -18,14 +18,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddGlobalExceptionHandler();
 
-builder.Services.AddInfrastructureFramework<EmployeeDbContext>();
+builder.Services.AddInfrastructureFramework<EmployeeDbContext, ApplicationUser, IdentityRole>();
 
 builder.Services.AddDbContext<EmployeeDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("EmployeeDb") ?? "Data Source=database.db"));
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<EmployeeDbContext>()
-    .AddDefaultTokenProviders();
 
 builder.Services.AddApplicationFramework();
 
