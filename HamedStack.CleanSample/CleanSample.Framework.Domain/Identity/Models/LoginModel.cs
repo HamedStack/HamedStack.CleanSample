@@ -7,6 +7,6 @@ public class LoginModel
     [Required(ErrorMessage = "Password is required")]
     public required string Password { get; set; }
 
-    [Required(ErrorMessage = "User Name is required")]
-    public required string Username { get; set; }
+    [Required(ErrorMessage = "UserName is required")]
+    public required string UserName { get; set; }
 }

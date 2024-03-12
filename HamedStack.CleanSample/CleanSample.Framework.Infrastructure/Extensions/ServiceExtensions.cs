@@ -4,6 +4,7 @@
 using System.Text;
 using CleanSample.Framework.Domain.AggregateRoots;
 using CleanSample.Framework.Domain.Identity;
+using CleanSample.Framework.Domain.Identity.Models;
 using CleanSample.Framework.Domain.Repositories;
 using CleanSample.Framework.Infrastructure.Outbox;
 using CleanSample.Framework.Infrastructure.Repositories;
@@ -62,8 +63,9 @@ public static class ServiceExtensions
             });
 
         services.AddSingleton(jwtConfig);
+        services.AddScoped<IJwtTokenService, JwtTokenService>();
         services.AddScoped<IIdentityService, IdentityService>();
-        
+
         return services;
     }
 }

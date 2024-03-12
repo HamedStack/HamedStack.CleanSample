@@ -15,10 +15,15 @@ namespace CleanSample.WebApi.Controllers
         {
             _identityService = identityService;
         }
-        [HttpPost(Name = "RegisterUser")]
+        [HttpPost("register", Name = "RegisterUser")]
         public async Task<Result> RegisterUser(RegisterModel registerModel)
         {
            return await _identityService.Register(registerModel);
+        }
+        [HttpPost("login", Name = "LoginUser")]
+        public async Task<TokenModel?> LoginUser(LoginModel loginModel)
+        {
+            return await _identityService.Login(loginModel);
         }
     }
 }

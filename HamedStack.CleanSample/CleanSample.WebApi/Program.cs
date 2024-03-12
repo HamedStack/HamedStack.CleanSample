@@ -20,7 +20,7 @@ builder.Services.AddGlobalExceptionHandler();
 builder.Services.AddInfrastructureFramework<EmployeeDbContext, ApplicationUser, IdentityRole>(opt =>
 {
     opt.RequireHttpsMetadata = false;
-    opt.SigningKey = "MyP@ssW0rd";
+    opt.SigningKey = "/H4A/2ZLnGPh3WpVAjoFW9BWfQd7G3vpVSC+e27Qyk4ACKNK65UWlXUwQs8xq/s+";
     opt.ValidAudience = "https://example.com/";
     opt.ValidIssuer = "https://example.com/";
 });

@@ -11,6 +11,6 @@ public class RegisterModel
     [Required(ErrorMessage = "Password is required")]
     public required string Password { get; set; }
 
-    [Required(ErrorMessage = "User Name is required")]
+    [Required(ErrorMessage = "UserName is required")]
     public required string UserName { get; set; }
 }

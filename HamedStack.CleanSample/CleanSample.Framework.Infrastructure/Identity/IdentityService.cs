@@ -2,26 +2,66 @@
 using CleanSample.Framework.Domain.Identity.Models;
 using CleanSample.Framework.Domain.Results;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace CleanSample.Framework.Infrastructure.Identity;
 
 public class IdentityService : IIdentityService
 {
-    private readonly JsonWebTokenOption _jwtOption;
     private readonly UserManager<ApplicationUser> _userManager;
-    public IdentityService(UserManager<ApplicationUser> userManager, JsonWebTokenOption jwtOption)
+    private readonly IJwtTokenService _jwtTokenService;
+    private readonly JsonWebTokenOption _jwtOption;
+
+    public IdentityService(UserManager<ApplicationUser> userManager, IJwtTokenService jwtTokenService, JsonWebTokenOption jwtOption)
     {
         _userManager = userManager;
+        _jwtTokenService = jwtTokenService;
         _jwtOption = jwtOption;
     }
-    public Task<TokenModel?> Login(LoginModel model)
+    public async Task<TokenModel?> Login(LoginModel model)
     {
-        throw new NotImplementedException();
-    }
+        ArgumentNullException.ThrowIfNull(model);
 
-    public Task<TokenModel?> GetRefreshToken(TokenModel tokenModel)
-    {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(model.UserName))
+        {
+            throw new ArgumentException("UserName is required.", nameof(model.UserName));
+        }
+        if (string.IsNullOrWhiteSpace(model.Password))
+        {
+            throw new ArgumentException("Password is required.", nameof(model.Password));
+        }
+
+        var user = await _userManager.FindByNameAsync(model.UserName);
+        if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+        {
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            var authClaims = new List<Claim>
+            {
+                new(ClaimTypes.Name, user.UserName!),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+
+            foreach (var userRole in userRoles)
+            {
+                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+            }
+
+            var accessToken = _jwtTokenService.GenerateAccessToken(authClaims);
+            var refreshToken = _jwtTokenService.GenerateRefreshToken();
+
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(_jwtOption.RefreshTokenValidityInDays);
+
+            await _userManager.UpdateAsync(user);
+            return new TokenModel
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
+            };
+        }
+        return null;
     }
 
     public async Task<Result> Register(RegisterModel model)
@@ -58,13 +98,36 @@ public class IdentityService : IIdentityService
         return new Result(ResultStatus.Failure, error);
     }
 
-    public Task<bool> Revoke(string userName)
+    public async Task<bool> Revoke(string userName)
     {
-        throw new NotImplementedException();
-    }
+        var user = await _userManager.FindByNameAsync(userName);
+        if (user == null) return false;
 
-    public Task RevokeAll()
+        user.RefreshToken = null;
+        user.RefreshTokenExpiryTime = new DateTime(1, 1, 1);
+
+        await _userManager.UpdateAsync(user);
+
+        return true;
+    }
+    public async Task Revoke(IEnumerable<string> userNames)
     {
-        throw new NotImplementedException();
+        var tasks = new List<Task>();
+        foreach (var userName in userNames)
+        {
+            tasks.Add(Revoke(userName));
+        }
+        await Task.WhenAll(tasks);
+    }
+    public async Task RevokeAll()
+    {
+        var tasks = new List<Task>();
+        foreach (var user in _userManager.Users.ToList())
+        {
+            user.RefreshToken = null;
+            user.RefreshTokenExpiryTime = new DateTime(1,1,1);
+            tasks.Add(_userManager.UpdateAsync(user));
+        }
+        await Task.WhenAll(tasks);
     }
 }
