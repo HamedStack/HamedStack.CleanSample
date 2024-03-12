@@ -1,7 +1,7 @@
 ﻿// ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedMemberInSuper.Global
 
-namespace CleanSample.Domain.Paging;
+namespace CleanSample.Framework.Domain.Paging;
 
 /// <summary>
 /// Represents a pageable list of items.

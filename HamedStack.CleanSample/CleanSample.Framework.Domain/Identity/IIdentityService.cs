@@ -1,7 +1,7 @@
-﻿using CleanSample.Domain.Identity.Models;
-using CleanSample.Domain.Results;
+﻿using CleanSample.Framework.Domain.Identity.Models;
+using CleanSample.Framework.Domain.Results;
 
-namespace CleanSample.Domain.Identity;
+namespace CleanSample.Framework.Domain.Identity;
 
 public interface IIdentityService
 {

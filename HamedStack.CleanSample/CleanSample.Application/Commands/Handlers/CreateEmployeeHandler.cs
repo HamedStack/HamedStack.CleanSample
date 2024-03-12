@@ -1,10 +1,10 @@
 ﻿using CleanSample.Domain.AggregateRoots;
 using CleanSample.Domain.AggregateRoots.DomainEvents;
 using CleanSample.Domain.Enumerations;
-using CleanSample.Domain.Results;
 using CleanSample.Domain.ValueObjects;
 using CleanSample.Framework.Application.Cqrs.Commands;
 using CleanSample.Framework.Domain.Repositories;
+using CleanSample.Framework.Domain.Results;
 using CleanSample.IntegrationEvents;
 using MassTransit;
 

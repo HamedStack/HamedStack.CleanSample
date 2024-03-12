@@ -1,4 +1,4 @@
-﻿namespace CleanSample.Domain.Results;
+﻿namespace CleanSample.Framework.Domain.Results;
 
 public enum ErrorSeverity
 {

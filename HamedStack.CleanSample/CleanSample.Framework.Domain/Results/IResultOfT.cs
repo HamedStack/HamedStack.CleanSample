@@ -1,5 +1,5 @@
 ﻿// ReSharper disable UnusedMember.Global
-namespace CleanSample.Domain.Results;
+namespace CleanSample.Framework.Domain.Results;
 
 public interface IResult<out T> : IResult
 {

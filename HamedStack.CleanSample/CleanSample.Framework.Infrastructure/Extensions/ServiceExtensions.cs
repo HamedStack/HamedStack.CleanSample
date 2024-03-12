@@ -2,8 +2,8 @@
 // ReSharper disable IdentifierTypo
 
 using System.Text;
-using CleanSample.Domain.Identity;
 using CleanSample.Framework.Domain.AggregateRoots;
+using CleanSample.Framework.Domain.Identity;
 using CleanSample.Framework.Domain.Repositories;
 using CleanSample.Framework.Infrastructure.Outbox;
 using CleanSample.Framework.Infrastructure.Repositories;
@@ -61,6 +61,7 @@ public static class ServiceExtensions
                 };
             });
 
+        services.AddSingleton(jwtConfig);
         services.AddScoped<IIdentityService, IdentityService>();
         
         return services;

@@ -17,7 +17,6 @@
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\CleanSample.Domain\CleanSample.Domain.csproj" />
 	  <ProjectReference Include="..\CleanSample.Framework.Domain\CleanSample.Framework.Domain.csproj" />
 	</ItemGroup>
 </Project>

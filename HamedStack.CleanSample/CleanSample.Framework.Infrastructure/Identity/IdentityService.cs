@@ -1,6 +1,6 @@
-﻿using CleanSample.Domain.Identity;
-using CleanSample.Domain.Identity.Models;
-using CleanSample.Domain.Results;
+﻿using CleanSample.Framework.Domain.Identity;
+using CleanSample.Framework.Domain.Identity.Models;
+using CleanSample.Framework.Domain.Results;
 using Microsoft.AspNetCore.Identity;
 
 namespace CleanSample.Framework.Infrastructure.Identity;
