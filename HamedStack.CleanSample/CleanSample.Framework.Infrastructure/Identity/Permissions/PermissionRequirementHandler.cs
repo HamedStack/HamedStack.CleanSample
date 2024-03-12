@@ -2,7 +2,7 @@
 
 namespace CleanSample.Framework.Infrastructure.Identity.Permissions;
 
-public class PermissionHandler : AuthorizationHandler<PermissionRequirement>
+public class PermissionRequirementHandler : AuthorizationHandler<PermissionRequirement>
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context, PermissionRequirement requirement)

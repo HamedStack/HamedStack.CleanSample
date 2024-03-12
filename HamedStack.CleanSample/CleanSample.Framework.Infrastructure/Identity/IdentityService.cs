@@ -48,6 +48,13 @@ public class IdentityService : IIdentityService
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
 
+            var userClaims = await _userManager.GetClaimsAsync(user);
+
+            foreach (var userClaim in userClaims)
+            {
+                authClaims.Add(new Claim(userClaim.Type, userClaim.Value));
+            }
+
             var accessToken = _jwtTokenService.GenerateAccessToken(authClaims);
             var refreshToken = _jwtTokenService.GenerateRefreshToken();
 
@@ -125,7 +132,7 @@ public class IdentityService : IIdentityService
         foreach (var user in _userManager.Users.ToList())
         {
             user.RefreshToken = null;
-            user.RefreshTokenExpiryTime = new DateTime(1,1,1);
+            user.RefreshTokenExpiryTime = new DateTime(1, 1, 1);
             tasks.Add(_userManager.UpdateAsync(user));
         }
         await Task.WhenAll(tasks);

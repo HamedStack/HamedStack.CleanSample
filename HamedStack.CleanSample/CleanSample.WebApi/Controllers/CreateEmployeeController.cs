@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CleanSample.WebApi.Controllers;
 
+// [Authorize]
 [ApiController]
 [Route("[controller]")]
 public class CreateEmployeeController : ControllerBase
@@ -17,6 +18,7 @@ public class CreateEmployeeController : ControllerBase
         _logger = logger;
     }
     [HttpPost(Name = "InsertEmployee")]
+    // [PermissionAuthorize(Permission.Create)]
     public async Task<IResult> InsertEmployee(CreateEmployeeCommand employeeCommand)
     {
         try

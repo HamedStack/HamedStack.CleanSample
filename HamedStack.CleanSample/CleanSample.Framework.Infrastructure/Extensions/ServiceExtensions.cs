@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using CleanSample.Framework.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
+using CleanSample.Framework.Infrastructure.Identity.Permissions;
 
 namespace CleanSample.Framework.Infrastructure.Extensions;
 
@@ -65,6 +67,9 @@ public static class ServiceExtensions
         services.AddSingleton(jwtConfig);
         services.AddScoped<IJwtTokenService, JwtTokenService>();
         services.AddScoped<IIdentityService, IdentityService>();
+
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+        services.AddScoped<IAuthorizationHandler, PermissionRequirementHandler>();
 
         return services;
     }

@@ -4,7 +4,7 @@ namespace CleanSample.Framework.Infrastructure.Identity.Permissions;
 
 public class PermissionRequirement : IAuthorizationRequirement
 {
-    public static string ClaimType => "permission";
+    public static string ClaimType => "Permission";
 
     public PermissionOperator PermissionOperator { get; }
 

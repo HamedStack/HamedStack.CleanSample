@@ -16,7 +16,7 @@ public class PermissionAuthorizeAttribute : AuthorizeAttribute
 
     public PermissionAuthorizeAttribute(string permission)
     {
-        Policy = CreatePolicy(permission);
+        Policy = CreatePolicy(PermissionOperator.And, permission);
     }
 
     public static PermissionOperator GetOperatorFromPolicy(string policyName)
