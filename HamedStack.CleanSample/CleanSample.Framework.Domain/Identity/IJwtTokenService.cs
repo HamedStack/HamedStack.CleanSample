@@ -1,5 +1,4 @@
-﻿using CleanSample.Framework.Domain.Identity.Models;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace CleanSample.Framework.Domain.Identity;
 

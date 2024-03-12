@@ -1,7 +1,6 @@
 using CleanSample.Framework.Application.Extensions;
 using CleanSample.Framework.Infrastructure.Extensions;
 using CleanSample.Framework.Infrastructure.Identity;
-using CleanSample.Framework.Infrastructure.Identity.DynamicPermissions;
 using CleanSample.Infrastructure;
 using CleanSample.WebApi.Handlers;
 using CleanSample.WebApi.REPR;
@@ -39,8 +38,6 @@ builder.Services.AddMassTransit(x =>
         cfg.ConfigureEndpoints(context);
     });
 });
-
-builder.Services.AddDynamicPermission(opt => opt.DisableCache = true);
 
 var app = builder.Build();
 
