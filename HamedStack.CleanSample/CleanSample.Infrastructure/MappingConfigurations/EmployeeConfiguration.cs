@@ -1,5 +1,6 @@
 ﻿using CleanSample.Domain.AggregateRoots;
 using CleanSample.Domain.Enumerations;
+using CleanSample.Domain.ValueObjects;
 using CleanSample.Framework.Infrastructure.ValueConverters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -56,10 +57,7 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
         {
             ba.Property(t => t.Value).HasColumnName("Fax").HasMaxLength(100);
         });
-        builder.ComplexProperty(e => e.Email, ba =>
-        {
-            ba.Property(t => t.Value).HasColumnName("Email").HasMaxLength(100);
-        });
+        builder.Property(e => e.Email).HasConversion<SingleValueObjectConverter<Email, string>>();
         builder.Property(e => e.EmployeeStatus).HasConversion<EnumerationNameConverter<EmployeeStatus>>();
 
     }

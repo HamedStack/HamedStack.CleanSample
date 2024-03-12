@@ -17,6 +17,5 @@ public class EmployeeDbContext : DbContextBase
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
     }
 }

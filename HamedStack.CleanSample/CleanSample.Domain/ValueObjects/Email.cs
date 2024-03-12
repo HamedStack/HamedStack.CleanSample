@@ -5,7 +5,7 @@ namespace CleanSample.Domain.ValueObjects;
 
 public class Email : SingleValueObject<string>
 {
-    private Email()
+    public Email()
     {
     }
 
