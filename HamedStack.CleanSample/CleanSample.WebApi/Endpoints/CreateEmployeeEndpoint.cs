@@ -5,6 +5,7 @@ using CleanSample.WebApi.REPR;
 
 namespace CleanSample.WebApi.Endpoints;
 
+
 public class CreateEmployeeEndpoint : IMinimalApiEndpoint
 {
     public void HandleEndpoint(IEndpointRouteBuilder endpoint)
@@ -12,7 +13,8 @@ public class CreateEmployeeEndpoint : IMinimalApiEndpoint
         endpoint.MapPost("/employee", CreateEmployeeEndpointHandler);
     }
 
-    // Separated and static to make integration test easier.
+    // [Authorize]
+    // [PermissionAuthorize(Permission.Create)]
     public static async Task<Result<int>> CreateEmployeeEndpointHandler(CreateEmployeeCommand employeeCommand, ICommandQueryDispatcher dispatcher)
     {
         var output = await dispatcher.Send(employeeCommand);
