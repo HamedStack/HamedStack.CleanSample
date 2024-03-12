@@ -1,5 +1,6 @@
-﻿namespace CleanSample.Framework.Domain.Results;
+﻿// ReSharper disable UnusedMember.Global
 
+namespace CleanSample.Framework.Domain.Results;
 
 public class Result<T> : IResult<T>
 {
@@ -7,14 +8,22 @@ public class Result<T> : IResult<T>
     public ResultStatus Status { get; }
     public T? Value { get; }
     public IDictionary<string, object> Metadata { get; } = new Dictionary<string, object>();
-    public Error? Error { get; }
+    public Error[]? Errors { get; }
 
     public Result(ResultStatus status, T? value, string error)
     {
         IsSuccess = status == ResultStatus.Success;
         Status = status;
         Value = value;
-        Error = new Error(error);
+        Errors = new Error[] { new(error) };
+    }
+
+    public Result(ResultStatus status, T? value, string[] errors)
+    {
+        IsSuccess = status == ResultStatus.Success;
+        Status = status;
+        Value = value;
+        Errors = errors.Select(e => new Error(e)).ToArray();
     }
 
     public static implicit operator Result<T>(Result value)
@@ -86,15 +95,59 @@ public class Result<T> : IResult<T>
     {
         return new Result<T>(ResultStatus.Unsupported, value, error);
     }
+    public static Result<T> Conflict(T? value, string[] errors)
+    {
+        return new Result<T>(ResultStatus.Conflict, value, errors);
+    }
 
+    public static Result<T> Failure(T? value, string[] errors)
+    {
+        return new Result<T>(ResultStatus.Failure, value, errors);
+    }
+
+    public static Result<T> Forbidden(T? value, string[] errors)
+    {
+        return new Result<T>(ResultStatus.Forbidden, value, errors);
+    }
+
+    public static Result<T> Invalid(T? value, string[] errors)
+    {
+        return new Result<T>(ResultStatus.Invalid, value, errors);
+    }
+
+    public static Result<T> NotFound(T? value, string[] errors)
+    {
+        return new Result<T>(ResultStatus.NotFound, value, errors);
+    }
+
+    public static Result<T> Success(T? value, string[] errors)
+    {
+        return new Result<T>(ResultStatus.Success, value, errors);
+    }
+
+    public static Result<T> Unauthorized(T? value, string[] errors)
+    {
+        return new Result<T>(ResultStatus.Unauthorized, value, errors);
+    }
+
+    public static Result<T> Unsupported(T? value, string[] errors)
+    {
+        return new Result<T>(ResultStatus.Unsupported, value, errors);
+    }
     public Result(ResultStatus status, T? value, Error error)
     {
         IsSuccess = status == ResultStatus.Success;
         Status = status;
         Value = value;
-        Error = error;
+        Errors = new Error[] { error };
     }
-
+    public Result(ResultStatus status, T? value, Error[] errors)
+    {
+        IsSuccess = status == ResultStatus.Success;
+        Status = status;
+        Value = value;
+        Errors = errors;
+    }
     public static Result<T> Conflict(T? value, Error error)
     {
         return new Result<T>(ResultStatus.Conflict, value, error);
@@ -134,13 +187,51 @@ public class Result<T> : IResult<T>
     {
         return new Result<T>(ResultStatus.Unsupported, value, error);
     }
+    public static Result<T> Conflict(T? value, Error[] errors)
+    {
+        return new Result<T>(ResultStatus.Conflict, value, errors);
+    }
 
+    public static Result<T> Failure(T? value, Error[] errors)
+    {
+        return new Result<T>(ResultStatus.Failure, value, errors);
+    }
+
+    public static Result<T> Forbidden(T? value, Error[] errors)
+    {
+        return new Result<T>(ResultStatus.Forbidden, value, errors);
+    }
+
+    public static Result<T> Invalid(T? value, Error[] errors)
+    {
+        return new Result<T>(ResultStatus.Invalid, value, errors);
+    }
+
+    public static Result<T> NotFound(T? value, Error[] errors)
+    {
+        return new Result<T>(ResultStatus.NotFound, value, errors);
+    }
+
+    public static Result<T> Success(T? value, Error[] errors)
+    {
+        return new Result<T>(ResultStatus.Success, value, errors);
+    }
+
+    public static Result<T> Unauthorized(T? value, Error[] errors)
+    {
+        return new Result<T>(ResultStatus.Unauthorized, value, errors);
+    }
+
+    public static Result<T> Unsupported(T? value, Error[] errors)
+    {
+        return new Result<T>(ResultStatus.Unsupported, value, errors);
+    }
     public Result(ResultStatus status, T? value)
     {
         IsSuccess = status == ResultStatus.Success;
         Status = status;
         Value = value;
-        Error = null;
+        Errors = null;
     }
 
     public static Result<T> Conflict(T? value)
@@ -191,14 +282,14 @@ public class Result<T> : IResult<T>
         var result = mapper(Value);
         return IsSuccess
             ? Result<TResult>.Success(result)
-            : Result<TResult>.Failure(result, Error!);
+            : Result<TResult>.Failure(result, Errors!);
     }
 
     public TResult Match<TResult>(
         Func<T?, TResult> onSuccess,
-        Func<Error, TResult> onFailure)
+        Func<Error[], TResult> onFailure)
     {
-        return IsSuccess ? onSuccess(Value) : onFailure(Error!);
+        return IsSuccess ? onSuccess(Value) : onFailure(Errors!);
     }
 
     public Result<T> Recover(Func<T?, Result<T>> recovery)
@@ -211,13 +302,13 @@ public class Result<T> : IResult<T>
         var result = selector(Value);
         return IsSuccess
             ? Result<TResult>.Success(result)
-            : Result<TResult>.Failure(result, Error!);
+            : Result<TResult>.Failure(result, Errors!);
     }
 
     public Result<TResult> SelectMany<TResult>(Func<T?, Result<TResult>> selector)
     {
         var result = selector(Value);
-        return IsSuccess ? result : Result<TResult>.Failure(result.Value, Error!);
+        return IsSuccess ? result : Result<TResult>.Failure(result.Value, Errors!);
     }
 
     public T? UnwrapOrDefault()
@@ -251,7 +342,7 @@ public class Result<T> : IResult<T>
     {
         if (!IsSuccess || !predicate(Value))
         {
-            return Failure(Value, Error!);
+            return Failure(Value, Errors!);
         }
 
         return this;

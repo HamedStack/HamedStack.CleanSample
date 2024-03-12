@@ -1,4 +1,6 @@
-﻿namespace CleanSample.Framework.Domain.Results;
+﻿// ReSharper disable UnusedMember.Global
+
+namespace CleanSample.Framework.Domain.Results;
 
 public class Result : IResult
 {
@@ -6,14 +8,14 @@ public class Result : IResult
     public ResultStatus Status { get; }
     public object? Value { get; }
     public IDictionary<string, object> Metadata { get; } = new Dictionary<string, object>();
-    public Error? Error { get; }
-    
+    public Error[]? Errors { get; }
+
     public Result(ResultStatus status)
     {
         IsSuccess = status == ResultStatus.Success;
         Status = status;
         Value = null;
-        Error = null;
+        Errors = null;
     }
 
     public static Result Conflict()
@@ -53,7 +55,15 @@ public class Result : IResult
         IsSuccess = status == ResultStatus.Success;
         Status = status;
         Value = null;
-        Error = new Error(error);
+        Errors = new Error[] { new(error) };
+    }
+
+    public Result(ResultStatus status, string[] errors)
+    {
+        IsSuccess = status == ResultStatus.Success;
+        Status = status;
+        Value = null;
+        Errors = errors.Select(e => new Error(e)).ToArray();
     }
 
     public static Result Conflict(string error)
@@ -88,12 +98,52 @@ public class Result : IResult
     {
         return new Result(ResultStatus.Unsupported, error);
     }
+
+    public static Result Conflict(string[] errors)
+    {
+        return new Result(ResultStatus.Conflict, errors);
+    }
+    public static Result Failure(string[] errors)
+    {
+        return new Result(ResultStatus.Failure, errors);
+    }
+    public static Result Forbidden(string[] errors)
+    {
+        return new Result(ResultStatus.Forbidden, errors);
+    }
+    public static Result Invalid(string[] errors)
+    {
+        return new Result(ResultStatus.Invalid, errors);
+    }
+    public static Result NotFound(string[] errors)
+    {
+        return new Result(ResultStatus.NotFound, errors);
+    }
+    public static Result Success(string[] errors)
+    {
+        return new Result(ResultStatus.Success, errors);
+    }
+    public static Result Unauthorized(string[] errors)
+    {
+        return new Result(ResultStatus.Unauthorized, errors);
+    }
+    public static Result Unsupported(string[] errors)
+    {
+        return new Result(ResultStatus.Unsupported, errors);
+    }
     public Result(ResultStatus status, Error error)
     {
         IsSuccess = status == ResultStatus.Success;
         Status = status;
         Value = null;
-        Error = error;
+        Errors = new Error[] { error };
+    }
+    public Result(ResultStatus status, Error[] errors)
+    {
+        IsSuccess = status == ResultStatus.Success;
+        Status = status;
+        Value = null;
+        Errors = errors;
     }
     public static Result Conflict(Error error)
     {
@@ -127,124 +177,237 @@ public class Result : IResult
     {
         return new Result(ResultStatus.Unsupported, error);
     }
-    public Result(ResultStatus status, object value, string error)
+
+    public static Result Conflict(Error[] errors)
+    {
+        return new Result(ResultStatus.Conflict, errors);
+    }
+    public static Result Failure(Error[] errors)
+    {
+        return new Result(ResultStatus.Failure, errors);
+    }
+    public static Result Forbidden(Error[] errors)
+    {
+        return new Result(ResultStatus.Forbidden, errors);
+    }
+    public static Result Invalid(Error[] errors)
+    {
+        return new Result(ResultStatus.Invalid, errors);
+    }
+    public static Result NotFound(Error[] errors)
+    {
+        return new Result(ResultStatus.NotFound, errors);
+    }
+    public static Result Success(Error[] errors)
+    {
+        return new Result(ResultStatus.Success, errors);
+    }
+    public static Result Unauthorized(Error[] errors)
+    {
+        return new Result(ResultStatus.Unauthorized, errors);
+    }
+    public static Result Unsupported(Error[] errors)
+    {
+        return new Result(ResultStatus.Unsupported, errors);
+    }
+
+    public Result(ResultStatus status, object? value, string error)
     {
         IsSuccess = status == ResultStatus.Success;
         Status = status;
         Value = value;
-        Error = new Error(error);
+        Errors = new Error[] { new(error) };
     }
-    public static Result Conflict(object value, string error)
+    public Result(ResultStatus status, object? value, string[] errors)
+    {
+        IsSuccess = status == ResultStatus.Success;
+        Status = status;
+        Value = value;
+        Errors = errors.Select(e => new Error(e)).ToArray();
+    }
+    public static Result Conflict(object? value, string error)
     {
         return new Result(ResultStatus.Conflict, value, error);
     }
-    public static Result Failure(object value, string error)
+    public static Result Failure(object? value, string error)
     {
         return new Result(ResultStatus.Failure, value, error);
     }
-    public static Result Forbidden(object value, string error)
+    public static Result Forbidden(object? value, string error)
     {
         return new Result(ResultStatus.Forbidden, value, error);
     }
-    public static Result Invalid(object value, string error)
+    public static Result Invalid(object? value, string error)
     {
         return new Result(ResultStatus.Invalid, value, error);
     }
-    public static Result NotFound(object value, string error)
+    public static Result NotFound(object? value, string error)
     {
         return new Result(ResultStatus.NotFound, value, error);
     }
-    public static Result Success(object value, string error)
+    public static Result Success(object? value, string error)
     {
         return new Result(ResultStatus.Success, value, error);
     }
-    public static Result Unauthorized(object value, string error)
+    public static Result Unauthorized(object? value, string error)
     {
         return new Result(ResultStatus.Unauthorized, value, error);
     }
-    public static Result Unsupported(object value, string error)
+    public static Result Unsupported(object? value, string error)
     {
         return new Result(ResultStatus.Unsupported, value, error);
     }
 
-    public Result(ResultStatus status, object value, Error error)
+    public static Result Conflict(object? value, string[] errors)
+    {
+        return new Result(ResultStatus.Conflict, value, errors);
+    }
+    public static Result Failure(object? value, string[] errors)
+    {
+        return new Result(ResultStatus.Failure, value, errors);
+    }
+    public static Result Forbidden(object? value, string[] errors)
+    {
+        return new Result(ResultStatus.Forbidden, value, errors);
+    }
+    public static Result Invalid(object? value, string[] errors)
+    {
+        return new Result(ResultStatus.Invalid, value, errors);
+    }
+    public static Result NotFound(object? value, string[] errors)
+    {
+        return new Result(ResultStatus.NotFound, value, errors);
+    }
+    public static Result Success(object? value, string[] errors)
+    {
+        return new Result(ResultStatus.Success, value, errors);
+    }
+    public static Result Unauthorized(object? value, string[] errors)
+    {
+        return new Result(ResultStatus.Unauthorized, value, errors);
+    }
+    public static Result Unsupported(object? value, string[] errors)
+    {
+        return new Result(ResultStatus.Unsupported, value, errors);
+    }
+
+    public Result(ResultStatus status, object? value, Error error)
     {
         IsSuccess = status == ResultStatus.Success;
         Status = status;
         Value = value;
-        Error = error;
+        Errors = new Error[] { error };
     }
 
-    public static Result Conflict(object value, Error error)
+    public Result(ResultStatus status, object? value, Error[] errors)
+    {
+        IsSuccess = status == ResultStatus.Success;
+        Status = status;
+        Value = value;
+        Errors = errors;
+    }
+
+    public static Result Conflict(object? value, Error error)
     {
         return new Result(ResultStatus.Conflict, value, error);
     }
-    public static Result Failure(object value, Error error)
+    public static Result Failure(object? value, Error error)
     {
         return new Result(ResultStatus.Failure, value, error);
     }
-    public static Result Forbidden(object value, Error error)
+    public static Result Forbidden(object? value, Error error)
     {
         return new Result(ResultStatus.Forbidden, value, error);
     }
-    public static Result Invalid(object value, Error error)
+    public static Result Invalid(object? value, Error error)
     {
         return new Result(ResultStatus.Invalid, value, error);
     }
-    public static Result NotFound(object value, Error error)
+    public static Result NotFound(object? value, Error error)
     {
         return new Result(ResultStatus.NotFound, value, error);
     }
-    public static Result Success(object value, Error error)
+    public static Result Success(object? value, Error error)
     {
         return new Result(ResultStatus.Success, value, error);
     }
-    public static Result Unauthorized(object value, Error error)
+    public static Result Unauthorized(object? value, Error error)
     {
         return new Result(ResultStatus.Unauthorized, value, error);
     }
-    public static Result Unsupported(object value, Error error)
+    public static Result Unsupported(object? value, Error error)
     {
         return new Result(ResultStatus.Unsupported, value, error);
     }
-
-    public Result(ResultStatus status, object value)
+    public static Result Conflict(object? value, Error[] errors)
+    {
+        return new Result(ResultStatus.Conflict, value, errors);
+    }
+    public static Result Failure(object? value, Error[] errors)
+    {
+        return new Result(ResultStatus.Failure, value, errors);
+    }
+    public static Result Forbidden(object? value, Error[] errors)
+    {
+        return new Result(ResultStatus.Forbidden, value, errors);
+    }
+    public static Result Invalid(object? value, Error[] errors)
+    {
+        return new Result(ResultStatus.Invalid, value, errors);
+    }
+    public static Result NotFound(object? value, Error[] errors)
+    {
+        return new Result(ResultStatus.NotFound, value, errors);
+    }
+    public static Result Success(object? value, Error[] errors)
+    {
+        return new Result(ResultStatus.Success, value, errors);
+    }
+    public static Result Unauthorized(object? value, Error[] errors)
+    {
+        return new Result(ResultStatus.Unauthorized, value, errors);
+    }
+    public static Result Unsupported(object? value, Error[] errors)
+    {
+        return new Result(ResultStatus.Unsupported, value, errors);
+    }
+    public Result(ResultStatus status, object? value)
     {
         IsSuccess = status == ResultStatus.Success;
         Status = status;
         Value = value;
-        Error = null;
+        Errors = null;
     }
 
-    public static Result Conflict(object value)
+    public static Result Conflict(object? value)
     {
         return new Result(ResultStatus.Conflict, value);
     }
-    public static Result Failure(object value)
+    public static Result Failure(object? value)
     {
         return new Result(ResultStatus.Failure, value);
     }
-    public static Result Forbidden(object value)
+    public static Result Forbidden(object? value)
     {
         return new Result(ResultStatus.Forbidden, value);
     }
-    public static Result Invalid(object value)
+    public static Result Invalid(object? value)
     {
         return new Result(ResultStatus.Invalid, value);
     }
-    public static Result NotFound(object value)
+    public static Result NotFound(object? value)
     {
         return new Result(ResultStatus.NotFound, value);
     }
-    public static Result Success(object value)
+    public static Result Success(object? value)
     {
         return new Result(ResultStatus.Success, value);
     }
-    public static Result Unauthorized(object value)
+    public static Result Unauthorized(object? value)
     {
         return new Result(ResultStatus.Unauthorized, value);
     }
-    public static Result Unsupported(object value)
+    public static Result Unsupported(object? value)
     {
         return new Result(ResultStatus.Unsupported, value);
     }
@@ -254,13 +417,13 @@ public class Result : IResult
         var result = mapper(Value);
         return IsSuccess
             ? Success(result)
-            : Failure(result, Error!);
+            : Failure(result, Errors!);
     }
     public TResult Match<TResult>(
         Func<object?, TResult> onSuccess,
-        Func<Error, TResult> onFailure)
+        Func<Error[], TResult> onFailure)
     {
-        return IsSuccess ? onSuccess(Value) : onFailure(Error!);
+        return IsSuccess ? onSuccess(Value) : onFailure(Errors!);
     }
 
     public Result Recover(Func<object?, Result> recovery)
@@ -273,7 +436,7 @@ public class Result : IResult
         var result = selector(Value);
         return IsSuccess
             ? Success(result)
-            : Failure(result, Error!);
+            : Failure(result, Errors!);
     }
 
     public Result SelectMany(Func<object?, Result> selector)
@@ -283,7 +446,7 @@ public class Result : IResult
         {
             return result;
         }
-        return result.Value != null ? Failure(result.Value, Error!) : Failure(Error!);
+        return result.Value != null ? Failure(result.Value, Errors!) : Failure(Errors!);
     }
     public object? UnwrapOrDefault()
     {
@@ -312,7 +475,7 @@ public class Result : IResult
     {
         if (!IsSuccess || !predicate(Value))
         {
-            return Failure(Value!, Error!);
+            return Failure(Value!, Errors!);
         }
         return this;
     }

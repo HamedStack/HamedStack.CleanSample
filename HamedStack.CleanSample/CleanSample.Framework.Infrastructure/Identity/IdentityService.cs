@@ -101,8 +101,8 @@ public class IdentityService : IIdentityService
         var result = await _userManager.CreateAsync(appUser, model.Password);
         if (result.Succeeded)
             return new Result(ResultStatus.Success);
-        var error = result.Errors.Select(e => e.Description).Aggregate((a, b) => a + Environment.NewLine + b);
-        return new Result(ResultStatus.Failure, error);
+        var errors = result.Errors.Select(e => e.Description).ToArray();
+        return new Result(ResultStatus.Failure, null, errors);
     }
 
     public async Task<bool> Revoke(string userName)

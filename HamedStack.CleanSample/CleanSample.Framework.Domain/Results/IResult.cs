@@ -4,8 +4,7 @@ public interface IResult
 {
     bool IsSuccess { get; }
     ResultStatus Status { get; }
-    Error? Error { get; }
+    Error[]? Errors { get; }
     object? Value { get; }
     IDictionary<string, object> Metadata { get; }
-
 }
