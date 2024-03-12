@@ -19,6 +19,7 @@ public class CreateEmployeeController : ControllerBase
     }
     [HttpPost(Name = "InsertEmployee")]
     // [PermissionAuthorize(Permission.Create)]
+    // [PermissionAuthorize(PermissionOperator.And, Permission.Create, Permission.Read)]
     public async Task<IResult> InsertEmployee(CreateEmployeeCommand employeeCommand)
     {
         try
