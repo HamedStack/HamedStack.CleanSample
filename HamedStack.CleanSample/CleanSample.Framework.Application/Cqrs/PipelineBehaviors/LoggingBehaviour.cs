@@ -6,7 +6,7 @@ namespace CleanSample.Framework.Application.Cqrs.PipelineBehaviors;
 
 public sealed class LoggingBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
-    where TResponse : IResult
+    where TResponse : Result
 {
     private readonly ILogger<TRequest> _logger;
 

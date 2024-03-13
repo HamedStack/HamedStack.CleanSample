@@ -3,11 +3,12 @@
 public enum ResultStatus
 {
     Success,
-    Failure,
+    Error,
     Forbidden,
     Unauthorized,
     Invalid,
     NotFound,
     Conflict,
+    Unavailable,
     Unsupported
 }

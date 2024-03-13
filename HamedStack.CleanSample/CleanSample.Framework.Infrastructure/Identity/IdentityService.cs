@@ -77,20 +77,20 @@ public class IdentityService : IIdentityService
 
         if (string.IsNullOrWhiteSpace(model.UserName))
         {
-            return new Result(ResultStatus.Failure, "UserName is required.");
+            return Result.Error("UserName is required.");
         }
         if (string.IsNullOrWhiteSpace(model.Password))
         {
-            return new Result(ResultStatus.Failure, "Password is required.");
+            return Result.Error("Password is required.");
         }
         if (string.IsNullOrWhiteSpace(model.Email))
         {
-            return new Result(ResultStatus.Failure, "Email is required.");
+            return Result.Error("Email is required.");
         }
         var user = await _userManager.FindByNameAsync(model.UserName);
         if (user != null)
         {
-            return new Result(ResultStatus.Failure, "User already exists!");
+            return Result.Error("User already exists!");
         }
         var appUser = new ApplicationUser
         {
@@ -100,9 +100,9 @@ public class IdentityService : IIdentityService
         };
         var result = await _userManager.CreateAsync(appUser, model.Password);
         if (result.Succeeded)
-            return new Result(ResultStatus.Success);
+            return Result.Success();
         var errors = result.Errors.Select(e => e.Description).ToArray();
-        return new Result(ResultStatus.Failure, null, errors);
+        return Result.Error(errors);
     }
 
     public async Task<bool> Revoke(string userName)
