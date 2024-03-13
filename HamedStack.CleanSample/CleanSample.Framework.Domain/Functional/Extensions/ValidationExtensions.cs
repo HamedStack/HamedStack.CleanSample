@@ -1,6 +1,4 @@
-﻿using CleanSample.Framework.Domain.Results;
-
-namespace CleanSample.Framework.Domain.Functional.Extensions;
+﻿namespace CleanSample.Framework.Domain.Functional.Extensions;
 
 public static class ValidationExtensions
 {
@@ -23,27 +21,11 @@ public static class ValidationExtensions
         );
     }
 
-    /*
-    public static Result<TValue> ToGenericResult<TValue, TError>(this Validation<TValue, TError> validation)
+    public static Maybe<TValue> ToMaybe<TValue, TError>(this Validation<TValue, TError> validation)
     {
         return validation.Match(
-            Result<TValue>.Success,
-            errors =>
-            {
-                var err = errors
-                    .Select((item, index) => new { Key = index, Value = item })
-                    .ToDictionary(pair => pair.Key.ToString(), pair => (object?)pair.Value);
-                return Result<TValue>.Failure(metaData: err);
-            }
-        );
-    }
-    */
-
-    public static Option<TValue> ToOption<TValue, TError>(this Validation<TValue, TError> validation)
-    {
-        return validation.Match(
-            some => Option<TValue>.Some(some!),
-            _ => Option<TValue>.None()
+            some => Maybe<TValue>.Just(some!),
+            _ => Maybe<TValue>.Nothing()
         );
     }
 }

@@ -9,6 +9,7 @@ public class Result<T> : Result
     {
         Value = value;
     }
+
     public T? Value { get; set; }
 
     [JsonIgnore]

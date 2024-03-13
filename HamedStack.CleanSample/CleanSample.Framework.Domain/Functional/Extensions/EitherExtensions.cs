@@ -1,6 +1,4 @@
-﻿using CleanSample.Framework.Domain.Results;
-
-namespace CleanSample.Framework.Domain.Functional.Extensions;
+﻿namespace CleanSample.Framework.Domain.Functional.Extensions;
 
 public static class EitherExtensions
 {
@@ -41,9 +39,9 @@ public static class EitherExtensions
         return either.IsRight ? either.Right! : defaultValue;
     }
 
-    public static Option<TLeft> LeftProjection<TLeft, TRight>(this Either<TLeft, TRight> either)
+    public static Maybe<TLeft> LeftProjection<TLeft, TRight>(this Either<TLeft, TRight> either)
     {
-        return either.Left is not null ? Option<TLeft>.Some(either.Left) : Option<TLeft>.None();
+        return either.Left is not null ? Maybe<TLeft>.Just(either.Left) : Maybe<TLeft>.Nothing();
     }
 
     public static Either<TResult, TRight> MapLeft<TLeft, TRight, TResult>(
@@ -64,9 +62,9 @@ public static class EitherExtensions
             : Either<TLeft, TResult>.CreateLeft(either.Left!);
     }
 
-    public static Option<TRight> RightProjection<TLeft, TRight>(this Either<TLeft, TRight> either)
+    public static Maybe<TRight> RightProjection<TLeft, TRight>(this Either<TLeft, TRight> either)
     {
-        return either.Right is not null ? Option<TRight>.Some(either.Right) : Option<TRight>.None();
+        return either.Right is not null ? Maybe<TRight>.Just(either.Right) : Maybe<TRight>.Nothing();
     }
 
     public static Either<TRight, TLeft> Swap<TLeft, TRight>(this Either<TLeft, TRight> either)
@@ -93,32 +91,11 @@ public static class EitherExtensions
         );
     }
 
-    public static Result ToNonGenericResult<TLeft, TRight>(this Either<TLeft, TRight> either,
-                                                        ResultStatus leftStatus = ResultStatus.Invalid)
+    public static Maybe<TRight> ToMaybe<TLeft, TRight>(this Either<TLeft, TRight> either)
     {
         return either.Match(
-            _ =>
-            {
-                return leftStatus switch
-                {
-                    ResultStatus.Forbidden => Result.Forbidden(),
-                    ResultStatus.Unauthorized => Result.Unauthorized(),
-                    ResultStatus.Invalid => Result.Invalid(),
-                    ResultStatus.NotFound => Result.NotFound(),
-                    ResultStatus.Conflict => Result.Conflict(),
-                    ResultStatus.Unsupported => Result.Unsupported(),
-                    _ => Result.Failure()
-                };
-            },
-            right => Result.Success(right)
-        );
-    }
-
-    public static Option<TRight> ToOption<TLeft, TRight>(this Either<TLeft, TRight> either)
-    {
-        return either.Match(
-            _ => Option<TRight>.None(),
-            right => Option<TRight>.Some(right!)
+            _ => Maybe<TRight>.Nothing(),
+            right => Maybe<TRight>.Just(right!)
         );
     }
 }

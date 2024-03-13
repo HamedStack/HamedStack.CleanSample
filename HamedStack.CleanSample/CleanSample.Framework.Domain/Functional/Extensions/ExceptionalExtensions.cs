@@ -1,6 +1,4 @@
-﻿using CleanSample.Framework.Domain.Results;
-
-namespace CleanSample.Framework.Domain.Functional.Extensions;
+﻿namespace CleanSample.Framework.Domain.Functional.Extensions;
 
 public static class ExceptionalExtensions
 {
@@ -13,24 +11,24 @@ public static class ExceptionalExtensions
 
     public static Exceptional<TResult> Bind<T, TResult>(
         this Exceptional<T> exceptional,
-        Option<TResult> optionResult) where TResult : notnull
+        Maybe<TResult> optionResult) where TResult : notnull
     {
         if (!exceptional.HasValue) return Exceptional<TResult>.Failure(exceptional.Exception!);
 
-        return optionResult.IsSome
+        return optionResult.IsJust
             ? Exceptional<TResult>.Success(optionResult.Unwrap())
-            : Exceptional<TResult>.Failure(new InvalidOperationException("The provided Option is None"));
+            : Exceptional<TResult>.Failure(new InvalidOperationException("The provided Maybe is None"));
     }
 
     public static Exceptional<TResult> Bind<T, TResult>(
         this Exceptional<T> exceptional,
-        Func<T, Option<TResult>> func) where TResult : notnull
+        Func<T, Maybe<TResult>> func) where TResult : notnull
     {
         if (!exceptional.HasValue) return Exceptional<TResult>.Failure(exceptional.Exception!);
 
         var optionResult = func(exceptional.Value!);
 
-        return optionResult.IsSome
+        return optionResult.IsJust
             ? Exceptional<TResult>.Success(optionResult.Unwrap())
             : Exceptional<TResult>.Failure(new InvalidOperationException("The function returned None"));
     }
@@ -92,29 +90,11 @@ public static class ExceptionalExtensions
         );
     }
 
-    /*
-    public static Result<T> ToGenericResult<T>(this Exceptional<T> exceptional)
+    public static Maybe<T> ToMaybe<T>(this Exceptional<T> exceptional)
     {
         return exceptional.Match(
-            Result<T>.Success,
-            failure => Result<T>.Failure(exception: failure)
-        );
-    }
-
-    public static Result ToNonGenericResult<T>(this Exceptional<T> exceptional)
-    {
-        return exceptional.Match(
-            success => Result.Success(success),
-            failure => Result.Failure(exception: failure)
-        );
-    }
-    */
-
-    public static Option<T> ToOption<T>(this Exceptional<T> exceptional)
-    {
-        return exceptional.Match(
-            success => Option<T>.Some(success!),
-            _ => Option<T>.None()
+            success => Maybe<T>.Just(success!),
+            _ => Maybe<T>.Nothing()
         );
     }
 }
