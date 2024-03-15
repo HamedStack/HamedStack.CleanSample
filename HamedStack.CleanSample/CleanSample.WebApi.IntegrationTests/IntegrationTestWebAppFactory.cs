@@ -15,7 +15,7 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureTestServices(services =>
         {
-            RemoveCurrentDescriptors(services);
+            services.RemoveAll(typeof(DbContextOptions<EmployeeDbContext>), typeof(DbConnection));
 
             services.AddSingleton<DbConnection>(container =>
             {
@@ -40,20 +40,5 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>
 
             builder.UseEnvironment("Development");
         });
-    }
-
-    private static void RemoveCurrentDescriptors(IServiceCollection services)
-    {
-        var dbContextDescriptor = services.SingleOrDefault(
-            d => d.ServiceType ==
-                 typeof(DbContextOptions<EmployeeDbContext>));
-
-        if (dbContextDescriptor != null) services.Remove(dbContextDescriptor);
-
-        var dbConnectionDescriptor = services.SingleOrDefault(
-            d => d.ServiceType ==
-                 typeof(DbConnection));
-
-        if (dbConnectionDescriptor != null) services.Remove(dbConnectionDescriptor);
     }
 }
